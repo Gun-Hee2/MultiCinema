@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.UserDao">
+
+<select id="addUser" parameterType="com.one.multicinemaback.dto.UserDto">
+	INSERT INTO USERS(id, pw, name, birth, email, phone, auth) VALUES(#{id},#{pw},#{name},#{birth},#{email},#{phone},1)
+</select>
+
+<select id="getUser" parameterType="java.lang.String" resultType="com.one.multicinemaback.dto.UserDto">
+	SELECT * FROM USERS WHERE ID=#{id}
+</select>
+
+</mapper>
