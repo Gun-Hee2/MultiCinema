@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.detail{
+   width: 50%;
+}
+#price{
+   white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<h1 align="center">Snack Bar Detail</h1>
+
+<div align="center">
+<table id="sbdetail">
+      
+</table>
+</div>
+
+</body>
+
+<script type="text/javascript">
+alert(p_name);
+
+getsbdetail();
+
+function getsbdetail(){
+	$.ajax({
+		url:'http://localhost:3000/snackbardetail',
+		type:"get",
+		data:{ product:p_name },
+		success:function(sbdetail){
+		//	alert("success");
+			alert(JSON.stringify(sbdetail));
+
+			let str = "<tr>";
+			    str += "<td rowspan='4'><img src='./image/" + sbdetail.product + ".png' width='400' height='350'>" + "</td>";
+			    str += "<td align='center' class='detail'><p>" + sbdetail.product + "<hr></p></td>";
+			    str += "</tr>";
+			    str += "<tr><td align='center' class='detail'><p>" + sbdetail.price + "원<hr></p></td></tr>";
+			    str += "<tr><td align='center' class='detail'><p>" + sbdetail.content + "<hr></p></td></tr>";
+			    str += "<tr><td align='center' class='detail'><p>수량<hr></tr></td></p>";
+			    str += "<tr><td rowspan='2'></td><td align='center' class='detail'><p id='price'>총 상품금액 <span id='price'>" + sbdetail.price + "</span>원</p></td></tr>";
+			    str += "<tr><td align='center' class='detail'><button type='button'>구매하기</button></td></tr>";
+			
+			$("#sbdetail").append(str);    
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+}
+
+</script>
+</html>
