@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Main page</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="menu" style="background-color:ivory">
+<a onclick="movePage('init.html')">MultiCinema</a>
+<a onclick="movePage('movie/movielist.html')">영화</a>
+<a onclick="movePage('snackbar/snackbar.html')">스낵/음료</a>
+<a onclick="movePage('qna/qna.html')">고객센터</a>
+<a onclick="movePage('mypage/mypage.html')">My Page</a>
+<a onclick="movePage('admin/admin.html')">관리자메뉴</a>
+</div>
+<div id="content"></div>
+
+<div id="chatbot">
+</div>
+<script type="text/javascript">
+var p_name="";
+var p_count="";
+var p_price="";
+movePage('init.html');
+getchatbot();
+function movePage(page){
+	$.ajax({
+		url:page,
+		success:function(resp){
+			$("#content").html(resp);
+		}
+	});
+}
+
+function getchatbot(){
+	$.ajax({
+		url:"chatbot.html",
+		success:function(resp){
+			$("#chatbot").html(resp);
+		}
+	});
+}
+</script>
+</body>
+</html>

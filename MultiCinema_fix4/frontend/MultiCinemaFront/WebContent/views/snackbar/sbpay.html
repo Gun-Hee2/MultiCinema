@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h2 align="center">결제 페이지</h2>
+<div align="center">
+<table border="1" width="1200" height="500">
+       <tr align="center" height="50" style="background-color: black; color: white">
+           <th width="400">상품정보</th>
+           <th>결제수단</th>
+           <th>결제하기</th>
+       </tr>
+       
+       <tr align="center">
+           <td id="product"></td>
+           <td>카카오페이</td>
+           <td>
+              <p><span style="float: left; margin-left: 10px;">상품금액</span><span style="float: right; margin-right: 10px;" id="iprice"></span></p><hr>
+              <br>
+              <p><span style="float: left; margin-left: 10px;">결제금액</span><span style="float: right; margin-right: 10px;" id="pprice"></span></p><hr>
+           </td>
+       </tr>
+</table>
+</div>
+
+<script type="text/javascript">
+/*
+alert(p_name);
+alert(p_count);
+alert(p_price); 
+*/
+
+var str2 = "<img src='./image/" + p_name + ".png' width='300' height='250'>";
+    str2 += "<br><br><p>" + p_name + "</p>";
+    str2 += "<p>수량 " + p_count + "개</p>";
+$("#product").append(str2);
+
+var str3 = p_price + "원";
+$("#iprice").html(str3);
+$("#pprice").html(str3);
+
+</script>
+
+</body>
+</html>
