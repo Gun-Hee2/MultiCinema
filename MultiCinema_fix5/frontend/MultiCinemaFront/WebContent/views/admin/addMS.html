@@ -1,0 +1,115 @@
+<meta charset="UTF-8">
+<script type="text/javascript">
+$.datepicker.setDefaults({
+	dateFormat: 'yyyy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    changeYear: true,
+    changeMonth: true,
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    onSelect: function (dateText, inst) {
+		$('#date').val(dateText.substring(4,14)); 
+	}
+});
+$(function() {
+	$( "#msDatePicker" ).datepicker();
+});
+</script>
+<div align="center">
+<table border="1">
+<tr>
+	<td>제목</td>
+	<td><input type="text" id="title" size="35"></td>
+</tr>
+<tr>
+	<td>상영관</td>
+	<td>
+	<select id="theater">
+		<option value="1">1관</option>
+		<option value="2">2관</option>
+		<option value="3">3관</option>
+		<option value="4">4관</option>
+		<option value="5">5관</option>
+		<option value="6">6관</option>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td>상영날짜</td>
+	<td>
+	<div id="msDatePicker"></div>
+	<input type="hidden" id="date" value="">
+	</td>
+</tr>
+<tr>
+	<td>상영시간</td>
+	<td>
+	<select id="sh"></select>:<select id="sm"></select>
+	</td>
+</tr>
+<tr>
+	<td>종료시간</td>
+	<td>
+	<select id="eh"></select>:<select id="em"></select>
+	</td>
+</tr>
+<tr>
+	<td>가격</td>
+	<td>
+	<select id="price">
+		<option value="8000">8000원</option>
+		<option value="9000">9000원</option>
+		<option value="10000">10000원</option>
+		<option value="11000">11000원</option>
+	</select>
+	</td>
+</tr>
+</table>
+
+<input type="button" value="등록" onclick="addMS()">
+
+<script type="text/javascript">
+for(var i=0;i<=23;i++){
+	var option;
+	if(i<10){
+		option="<option value='0"+i+"'>0"+i+"</option>";
+	}
+	else{
+		option="<option value='"+i+"'>"+i+"</option>";
+	}
+	$("#sh").append(option);
+	$("#eh").append(option);
+}
+for(var i=0;i<60;i++){
+	var option;
+	if(i<10){
+		option="<option value='0"+i+"'>0"+i+"</option>";
+	}
+	else{
+		option="<option value='"+i+"'>"+i+"</option>";
+	}
+	$("#sm").append(option);
+	$("#em").append(option);
+}
+function addMS(){
+	alert($("#date").val()+" "+$("#sh").val()+ ":" + $("#sm").val());
+	$.ajax({
+		url:"http://localhost:3000/ms",
+		type:"post",
+		data:{ msnum:0, title:$("#title").val(), theater:$("#theater").val(), sdate:$("#date").val()+" "+$("#sh").val()+ ":" + $("#sm").val(), edate:$("#date").val()+" "+$("#eh").val()+ ":" + $("#em").val(),price:$("#price").val()},
+		success:function(resp){
+			alert("상영정보등록이 완료되었습니다.");
+		},
+		error:function(){
+			alert("상영정보등록이 실패하였습니다.");
+		}
+	});
+}
+</script>
+</div>
