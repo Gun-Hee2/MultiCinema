@@ -1,0 +1,68 @@
+<meta charset="UTF-8">
+<script>
+$.datepicker.setDefaults({
+	dateFormat: 'yyyy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    changeYear: true,
+    changeMonth: true,
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    onSelect: function (dateText, inst) {
+		$('#odate').val(dateText.substring(4,14)); 
+	}
+});
+$(function() {
+	$( "#DatePicker" ).datepicker();
+});
+</script>
+<div align="center">
+<table border="1">
+<tr>
+	<td>제목</td>
+	<td><input type="text" id="title" size="35"></td>
+</tr>
+<tr>
+	<td>장르</td>
+	<td><input type="text" id="genre" size="35"></td>
+</tr>
+<tr>
+	<td>내용</td>
+	<td><input type="text" id="contents" size="35"></td>
+</tr>
+<tr>
+	<td>감독</td>
+	<td><input type="text" id="director" size="35"></td>
+</tr>
+<tr>
+	<td>개봉날짜</td>
+	<td>
+	<div id="DatePicker"></div> 
+	<input type="hidden" id="odate" value="">
+	</td>
+</tr>
+</table>
+<input type="button" value="등록" onclick="addMovie()">
+<script type="text/javascript">
+function addMovie(){
+	$.ajax({
+		url:"http://localhost:3000/movie",
+		type:"post",
+		data:{ title:$("#title").val(), genre:$("#genre").val(), content:$("#contents").val(), director:$("#director").val(), odate:$("#odate").val()},
+		success:function(resp){
+		
+			alert("영화등록이 완료되었습니다.");
+		
+		},
+		error:function(){
+			alert("영화등록이 실패하였습니다.");
+		}
+	});
+}
+</script>
+</div>
