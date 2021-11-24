@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style type="text/css">
+
+/* .snack:focus,
+.snack:active {
+  outline: none;
+  box-shadow: none;
+  border:none;
+}  */
+
+</style>
+
+</head>
+<body>
+
+<h1 align="center">snackbar</h1>
+
+<div align="center">
+<table>
+       <tr id="combo">
+           
+       </tr>
+       
+       <tr id="snack">
+       
+       </tr>
+       
+       <tr id="drink">
+       
+</table>
+</div>
+
+<script type="text/javascript">
+
+getsnackbar('combo');
+getsnackbar('snack');
+getsnackbar('drink');
+
+
+function getsnackbar(sort){
+	$.ajax({
+		url:'http://localhost:3000/snackbarlist',
+		type:"get",
+		data:{ category:sort},
+		success:function(list){
+			
+		//	alert(JSON.stringify(list));
+		//	alert(list[1].product);
+		//  alert("success");
+			
+			for(i = 0; i < list.length; i++){
+				let str = "<td>";
+				    str += "<button type='button' id='" + list[i].product + "' class='snack' onClick='menu_click(this.id)' style='background-color: white'>";
+					str += "<img src='./image/snackbar/" + list[i].product + ".png' width='250' height='200'>" + "<br>";
+					str += "<p>" + list[i].product + "</p>";
+				    str += "<p style='font-size: 10px;'>" + list[i].content + "</p>";
+				    str += "<p>" + list[i].price + "</p>";
+				    str += "</button>";	
+				    str += "</td>";
+				
+				$("#"+ sort).append(str);   
+				
+			}
+			
+			
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+}
+
+function menu_click(product){
+//	alert(clicked_id);
+	p_name=product;
+	movePage("snackbar/sbdetail.html&product=" + product);
+}
+
+</script>
+
+
+</body>
+</html>

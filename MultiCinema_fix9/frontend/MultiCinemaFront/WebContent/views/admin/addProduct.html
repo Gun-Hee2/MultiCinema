@@ -1,0 +1,36 @@
+<meta charset="UTF-8">
+<div align="center">
+<table border="1">
+<tr>
+	<td>상품명</td>
+	<td><input type="text" id="product" size="35"></td>
+</tr>
+<tr>
+	<td>내용</td>
+	<td><textarea id="contents" cols=37 rows=10></textarea></td>
+</tr>
+<tr>
+	<td>가격</td>
+	<td><input type="text" id="price" size="35"></td>
+</tr>
+</table>
+<input type="button" value="등록" onclick="addActor()">
+
+<script type="text/javascript">
+function addActor(){
+	$.ajax({
+		url:"http://localhost:3000/snackbar",
+		type:"post",
+		data:{ product:$("#product").val(), content:$("#contents").val(), price:$("#price").val()},
+		success:function(resp){
+		
+			alert("상품등록이 완료되었습니다.");
+		
+		},
+		error:function(){
+			alert("상품등록이 실패하였습니다.");
+		}
+	});
+}
+</script>
+</div>
