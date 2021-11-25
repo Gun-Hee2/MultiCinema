@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h2 align="center">결제 페이지</h2>
+<div align="center">
+<table border="1" width="1200" height="500">
+       <tr align="center" height="50" style="background-color: black; color: white">
+           <th width="400">상품정보</th>
+           <th>결제수단</th>
+           <th>결제하기</th>
+       </tr>
+       
+       <tr align="center">
+           <td id="product"></td>
+           <td>카카오페이</td>
+           <td>
+              <table border="1" style="width: 100%; height: 40%;">
+                     <tr style="margin: 100px">
+                         <td style="background-color: #585858; color: white">
+                             <p><span style="float: left; margin-left: 10px;">상품금액</span><span style="float: right; margin-right: 10px;" id="iprice"></span></p>
+                         </td>
+                     </tr>
+                     <tr>
+                         <td style="background-color: #585858; color: white">
+                             <p><span style="float: left; margin-left: 10px;">결제금액</span><span style="float: right; margin-right: 10px;" id="pprice"></span></p>
+                         </td>
+                     </tr>
+                     <tr>
+                         <td>
+                             <button style="width: 100%; height: 100%; background-color: #FF0040; color: white;" onclick="sbpay()">결제하기</button>
+                         </td>
+                     </tr>
+              </table>
+           </td>
+       </tr>
+</table>
+</div>
+
+<script type="text/javascript">
+/*
+alert(p_name);
+alert(p_count);
+alert(p_price); 
+alert(id);
+*/
+
+var params = getURLParams(location.search);
+
+var p_name = params.product;
+
+var p_count = params.count;
+
+var p_price = params.price;
+
+//alert(p_name);
+//alert(p_count);
+//alert(p_price);
+
+var str2 = "<img src='./image/snackbar/" + p_name + ".png' width='300' height='250'>";
+    str2 += "<br><br><p style='font-weight: 900;'>" + p_name + "</p>";
+    str2 += "<p style='font-weight: 500;'>수량 &nbsp;&nbsp;&nbsp;&nbsp;" + p_count + "개</p>";
+$("#product").append(str2);
+
+var str3 = p_price + "원";
+$("#iprice").html(str3);
+$("#pprice").html(str3);
+
+function sbpay(){
+	$.ajax({
+		url:"http://localhost:3000/sbkakaopay",
+		type:"get",
+		data:{ "id":id, "product":p_name, "count":p_count, "payprice":p_price, },
+		dataType:'json',
+		success:function(data){
+		//	alert("success");
+			alert(JSON.stringify(data));
+		//	alert(data.tid);
+			/*
+			var box = data.next_redirect_pc_url;
+			window.open(box);
+			*/
+			//localStorage.setItem('tid', data.tid);
+			tid = data.tid;
+			sessionStorage.setItem("tid", data.tid);
+			insertsbpay(tid, id, p_name, p_count, p_price);
+			location.href = data.next_redirect_pc_url;
+			
+			
+			
+			function insertsbpay(tid, id, product, count, payprice){
+				
+				//alert(data.tid);
+				
+				$.ajax({
+					url:"http://localhost:3000/insertsbpay",
+					type:"get",
+					data:{ 'tid':tid, "id":id, "product":product, "count":count, "payprice":payprice, },
+					success:function(resp){
+						alert(resp);
+					
+					},
+					error:function(error){
+						alert("error");
+					}
+				});
+				
+				
+			}
+			
+			
+		},
+		error:function(error){
+			alert("error");
+		}
+	});	
+}
+
+</script>
+
+</body>
+</html>

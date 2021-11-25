@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<h2>글수정</h2>
+
+<div id="app" class="container">
+
+	<form id="frm">
+
+	<input type="hidden" id="seq" name="seq">
+
+	<table class="table table-striped">
+		<col width="200"><col width="500">		
+		<tr>
+			<td>작성자</td>
+			<td>
+				<input type="text" id="id" name="id" size="50px" readonly="readonly">
+			</td>
+		</tr>
+		<tr>
+			<td>제목</td>
+			<td>
+				<input type="text" class="form-control" id="title" name="title" size="50px">
+			</td>
+		</tr>	
+		<tr>
+			<td>내용</td>
+			<td>
+				<textarea class="form-control" rows="20" id="content" name="content"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button type="button" id="btn" class="btn btn-secondary">작성완료</button>
+			</td>	
+		</tr>
+	</table>
+	
+	</form>
+</div>
+
+<script type="text/javascript">
+var seq = params.seq;
+//alert(seq);
+$("#seq").val(seq);
+
+$.ajax({
+	url:'http://localhost:3000/bbsdetail',
+	type:'get',
+	data:{ 'seq':seq },
+	success:function(data){
+		$("#id").val( data.id );
+		$("#title").val( data.title );
+		$("#content").val( data.content );	// textarea
+	},
+	error:function(){
+		alert('error');
+	}		
+});
+
+
+$("#btn").click(function() {	
+	$.ajax({
+		url:"http://localhost:3000/bbsupdate",
+		type:"get",
+		data:$("#frm").serialize(),
+		success:function(resp){
+		//	alert('success');
+		
+			if(resp == "YES"){
+				alert('글을 변경했습니다');
+			}else{
+				alert('글이 변경되지 않았습니다');
+			}			
+			movePage("bbs/bbslist.html");
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+});
+
+</script>
+
+</body>
+</html>

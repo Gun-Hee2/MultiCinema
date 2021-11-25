@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+//html에서 추가하면, parameter를 받을 수 있는 소스 : 추가만 해주면 된다.
+let urlParams = location.search.split(/[?&]/).slice(1).map(function(paramPair) {
+    return paramPair.split(/=(.+)?/).slice(0, 2);
+}).reduce(function(obj, pairArray) {
+    obj[pairArray[0]] = pairArray[1];
+    return obj;
+}, {});
+</script>
+<style type="text/css">
+.reservation{
+     width: 10%;
+}
+</style>
+</head>
+<body>
+
+<div id="content">
+
+<h2 align="center">결제 완료</h2>
+
+<div style="height:auto; width: 100%; border: 1px solid rgba(255, 0, 0, .5); text-align: center;">
+    <pre>
+        <span style="font-size: 30px">MultiCinema를 이용해주셔서 감사합니다.</span>
+        결제가 안전하게 처리 되었습니다.
+    </pre>
+</div>
+
+<h4>결제자 정보</h4>
+<table style="width: 100%" border="1">
+       <tr>
+           <td class="reservation">
+               성명(한글)
+           </td>
+           <td id="uname">
+               
+           </td>
+       </tr>
+       <tr>
+           <td class="reservation">
+               이메일
+           </td>
+           <td id="uemail">
+               
+           </td>
+       </tr>
+       <tr>
+           <td class="reservation">
+               연락처
+           </td>
+           <td id="uphone">
+               
+           </td>
+       </tr>
+</table>
+
+<h4>결제 정보</h4>
+<table style="width: 100%" border="1">
+       <tr>
+           <td class="reservation">
+               총 상품금액
+           </td>
+           <td id="pprice">
+               
+           </td>
+           <td class="reservation">
+               결제방법
+           </td>
+           <td>
+               카카오페이
+           </td>
+       </tr>
+       <tr>
+           <td class="reservation">
+               총 결제금액
+           </td>
+           <td id="payprice">
+               
+           </td>
+           <td class="reservation">
+               결제번호
+           </td>
+           <td id="tid">
+               
+           </td>
+       </tr>
+</table>
+<br>
+<div align="center">
+<button onclick="movemain('/MultiCinemaFront/views/main.html?page=init.html')">메인 페이지로 이동</button>
+</div>
+</div>
+
+<script type="text/javascript">
+let id = urlParams.id;
+//alert(id);
+let tid = sessionStorage.getItem("tid");
+//alert(tid);
+$.ajax({
+	url:"http://localhost:3000/sgetuser",
+	type:"post",
+	data:{ "id": id },
+	success:function(resp){
+	//	alert('success');
+	//	alert(JSON.stringify(resp));
+    //  alert(resp.name);
+		
+        $("#uname").append(resp.name);
+        $("#uemail").append(resp.email);
+        $("#uphone").append(resp.phone);
+        
+	},
+	error:function(){
+		alert('error');
+	}
+});
+
+
+$.ajax({
+	url:"http://localhost:3000/getsbpay",
+	type:"post",
+	data:{ "tid": tid },
+	success:function(spay){
+	//	alert(JSON.stringify(spay));
+		
+		$("#pprice").append(spay.payprice + "원");
+		$("#payprice").append(spay.payprice + "원");
+		$("#tid").append(spay.tid);
+		
+  
+	},
+	error:function(){
+		alert('error');
+	}
+});
+
+
+function movemain(page){
+	location.href = page;
+}
+
+
+
+</script>
+
+</body>
+</html>
