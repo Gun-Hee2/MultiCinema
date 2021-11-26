@@ -1,0 +1,87 @@
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+
+<style type="text/css">
+.detail{
+   width: 50%;
+}
+#price{
+   white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<h1 align="center">Snack Bar Detail</h1>
+
+<div align="center">
+<table id="sbdetail">  
+ 
+</table>
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+var product = params.product;
+
+//alert(product);
+
+getsbdetail();
+
+function getsbdetail(){
+	$.ajax({
+		url:'http://localhost:3000/snackbardetail',
+		type:"get",
+		data:{ "product":product },
+		success:function(sbdetail){
+		//	alert("success");
+		//	alert(JSON.stringify(sbdetail));
+
+			let str = "<tr>";
+			    str += "<td rowspan='4'><img src='./image/snackbar/" + sbdetail.product + ".png' width='400' height='350'>" + "</td>";
+			    str += "<td align='center' class='detail'><p>" + sbdetail.product + "<hr></p></td>";
+			    str += "</tr>";
+			    str += "<tr><td align='center' class='detail'><p>" + sbdetail.price + "원<hr></p></td></tr>";
+			    str += "<tr><td align='center' class='detail'><p>" + sbdetail.content + "<hr></p></td></tr>";
+			    str += "<tr><div style='border:1px solid'><td align='center' class='detail'><button type='button' style='float: left;' onclick='mcount("+ sbdetail.price +")'>-</button><span id='count'>1</span><button type='button' style='float: right;' onclick='pcount("+ sbdetail.price +")'>+</button></td></div><tr>";
+			    str += "<tr><td rowspan='2'></td><td align='center' class='detail'><p>총 상품금액 <span id='price'>" + sbdetail.price + "</span>원</p></td></tr>";
+			    str += "<tr><td align='center' class='detail'><button type='button' onclick='buybtn(count.innerHTML, price.innerHTML)'>구매하기</button></td></tr>";
+			
+			$("#sbdetail").append(str); 
+			
+
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+}
+
+function pcount(pprice){
+	let count = document.getElementById('count');
+	let price = document.getElementById('price');
+	count.innerHTML = parseInt($("#count").text()) + 1;
+	price.innerHTML = parseInt($("#price").text()) + parseInt(pprice);
+}
+
+function mcount(pprice){
+	let count = document.getElementById('count');
+	let price = document.getElementById('price');
+	if(count.innerHTML > 1){
+		count.innerHTML = parseInt($("#count").text()) - 1;
+		price.innerHTML = parseInt($("#price").text()) - parseInt(pprice);	
+	}
+}
+
+function buybtn(){
+	p_count=count.innerHTML;
+	p_price=price.innerHTML;
+	//alert(p_count);
+	//alert(p_price);
+	movePage("snackbar/sbpay.html&product=" + product + "&count=" + p_count + "&price=" + p_price);
+}
+</script>

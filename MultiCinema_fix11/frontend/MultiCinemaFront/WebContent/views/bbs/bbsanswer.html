@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div id="app" class="container">
+	<table class="table table-striped">
+		<col width="200"><col width="500">		
+		<tr>
+			<td>작성자</td>
+			<td id="id"></td>
+		</tr>
+		<tr>
+			<td>제목</td>
+			<td id="title"></td>
+		</tr>
+		<tr>
+			<td>작성일</td>
+			<td id="wdate"></td>
+		</tr>
+		<tr>
+			<td>조회수</td>
+			<td id="readcount"></td>
+		</tr>		
+		
+		<tr>
+			<td>내용</td>
+			<td>
+				<textarea class="form-control" rows="10" id="contents" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</table>
+	
+	<h2>답글작성</h2>
+	
+	<form id="frm">		
+	<input type="hidden" id="seq" name="seq">
+
+	<table class="table table-striped">
+	<col width="200"><col width="400">
+	
+	<tr>
+		<th class="table-primary">아이디</th>
+		<td>
+			<input type="text" id="userid" name="id" size="50px" readonly="readonly">
+		</td>
+	</tr>
+	
+	<tr>
+		<th class="table-primary">제목</th>
+		<td>
+			<input type="text" class="form-control" name="title" size="50px">
+		</td>
+	</tr>
+	
+	<tr>
+		<th class="table-primary">내용</th>
+		<td>
+			<textarea class="form-control" rows="10" name="content"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<button type="button" id="btn" class="btn btn-secondary">작성완료</button>
+		</td>	
+	</tr>
+	</table>
+
+</form>
+	
+</div>
+
+
+<script type="text/javascript">
+var seq = params.seq;
+//alert(seq);
+
+$.ajax({
+	url:'http://localhost:3000/bbsdetail',
+	type:'get',
+	data:{ 'seq':seq },
+	success:function(data){
+	//	alert('success');
+	//	alert( JSON.stringify(data));
+		$("#id").text( data.id );
+		$("#title").text( data.title );
+		$("#wdate").text( data.wdate );
+		$("#readcount").text( data.readcount );
+		$("#contents").val( data.content );	// textarea
+		
+		// login한 id와 다를 때는 수정과 삭제를 할 수 없도록 처리  
+		let login = JSON.parse(sessionStorage.getItem("login"));
+		if(data.id != login.id){
+			$("#updatebbs").hide(); // 나타내지 말아라
+			$("#deletebbs").hide();
+		}
+	},
+	error:function(){
+		alert('error');
+	}		
+});
+
+
+
+$("#userid").val(id);
+$("#seq").val(seq);
+
+$("#btn").click(function() {
+	
+	$.ajax({
+		url:"http://localhost:3000/bbsanswer",
+		type:"post",
+		data:$("#frm").serialize(),
+		success:function(resp){
+		//	alert('success');
+		
+			if(resp == "YES"){
+				alert('답글이 추가되었습니다');
+			}else{
+				alert('답글이 추가되지 않았습니다');
+			}			
+			movePage("bbs/bbslist.html");
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+});
+
+</script>
+</body>
+</html>
