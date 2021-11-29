@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+let tid = sessionStorage.getItem("tid");
+//alert(tid);
+
+$.ajax({
+	url:"http://localhost:3000/delsbpay",
+	type:"post",
+	data:{ "tid": tid },
+	success:function(resp){
+		if(resp == "success"){
+			alert("결제가 취소되었습니다.");
+		}else{
+			alert("error");
+		}
+		location.href = "/MultiCinemaFront/views/main.html?page=snackbar/snackbar.html";
+ 
+	},
+	error:function(){
+		alert('error');
+	}
+});
+</script>
+</body>
+</html>

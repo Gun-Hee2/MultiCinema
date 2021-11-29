@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+//html에서 추가하면, parameter를 받을 수 있는 소스 : 추가만 해주면 된다.
+let urlParams = location.search.split(/[?&]/).slice(1).map(function(paramPair) {
+    return paramPair.split(/=(.+)?/).slice(0, 2);
+}).reduce(function(obj, pairArray) {
+    obj[pairArray[0]] = pairArray[1];
+    return obj;
+}, {});
+
+alert("결제가 완료되었습니다! 이용해 주셔서 감사합니다!");
+</script>
+<style type="text/css">
+.reservation{
+     width: 10%;
+}
+</style>
+</head>
+<body>
+
+<div id="content" style="margin-top: 60px;">
+
+<div style="height:auto; width: 100%; text-align: center; font-weight: 600">
+    <pre>
+        <span style="font-size: 30px">MultiCinema를 이용해주셔서 감사합니다.</span>
+        <span style="opacity: 0.5">결제가 안전하게 처리 되었습니다.</span>
+    </pre>
+</div>
+
+<span style="font-size: 20px; font-weight: 600;">결제자 정보</span><hr style="background-color: #585858"><br>
+<table style="width: 100%; background-color: #585858; color: white; font-weight: 600" border="1">
+       <tr>
+           <td class="reservation">
+               성명(한글)
+           </td>
+           <td id="uname">
+               
+           </td>
+       </tr>
+       <tr>
+           <td class="reservation">
+               이메일
+           </td>
+           <td id="uemail">
+               
+           </td>
+       </tr>
+       <tr>
+           <td class="reservation">
+               연락처
+           </td>
+           <td id="uphone">
+               
+           </td>
+       </tr>
+</table>
+<br><br>
+
+<span style="font-size: 20px; font-weight: 600;">결제 정보</span><hr style="background-color: #585858"><br>
+<table style="width: 100%; background-color: #585858; color: white; font-weight: 600" border="1">
+       <tr>
+           <td class="reservation">
+               총 상품금액
+           </td>
+           <td id="pprice">
+               
+           </td>
+           <td class="reservation">
+               결제방법
+           </td>
+           <td>
+               카카오페이
+           </td>
+       </tr>
+       <tr>
+           <td class="reservation">
+               총 결제금액
+           </td>
+           <td id="payprice">
+               
+           </td>
+           <td class="reservation">
+               결제번호
+           </td>
+           <td id="tid">
+               
+           </td>
+       </tr>
+       <tr>
+           <td>
+               결제시간
+           </td>
+           <td id="sbdate" colspan="3">
+           
+           </td>
+       </tr>
+</table>
+<br><br><br>
+<div align="center">
+<button onclick="movemain('/MultiCinemaFront/views/main.html?page=init.html')" style='background-color: #FF0040; color: white; font-size:15px; font-weight: 900; padding: 15px 30px'>메인 페이지로 이동</button>
+</div>
+</div>
+
+<script type="text/javascript">
+let tid = sessionStorage.getItem("tid");
+$.ajax({
+	url:"http://localhost:3000/sgetuser",
+	type:"post",
+	data:{ "id": id },
+	success:function(resp){
+		
+        $("#uname").append(resp.name);
+        $("#uemail").append(resp.email);
+        $("#uphone").append(resp.phone);
+        
+	},
+	error:function(){
+		alert('error');
+	}
+});
+
+
+$.ajax({
+	url:"http://localhost:3000/getsbpay",
+	type:"post",
+	data:{ "tid": tid },
+	success:function(spay){
+		
+		$("#pprice").append(spay.payprice + "원");
+		$("#payprice").append(spay.payprice + "원");
+		$("#tid").append(spay.tid);
+		$("#sbdate").append(spay.sbdate);
+		
+  
+	},
+	error:function(){
+		alert('error');
+	}
+});
+
+
+function movemain(page){
+	location.href = page;
+}
+
+
+
+</script>
+
+</body>
+</html>
