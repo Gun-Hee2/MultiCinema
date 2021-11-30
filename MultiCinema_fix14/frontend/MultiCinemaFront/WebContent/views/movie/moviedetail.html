@@ -1,0 +1,262 @@
+<meta charset="UTF-8">
+
+<div class="movie-detail-page">
+	<div class="bg-img" id="vrap">
+		<video src="" id="vid" width="100%" height="100%" autoplay="autoplay" muted="muted" loop="loop"></video>
+	</div>
+	<div class="bg-pattern"></div>
+	<div class="bg-mask"></div>
+	<div></div>
+	<div class="movie-detail-cont">
+		<p class="title" id=title></p>
+		<div class="info">
+			<div class="score" >
+				<p class="tit">실관람 평점</p>
+				<div class="number gt" style="background: url('./image/star2.png') no-repeat 0 center;">
+					<p class="before">						
+						<em id="score"></em>
+					</p>
+				</div>
+			</div>
+		</div>	
+		<div class="poster">
+			<div class="wrap" id="wrap">
+				<!-- <img src="./images/" > -->
+			</div>
+		</div>
+	</div>
+</div>
+<div id="contentData" align="left">
+	<div class="inner-wrap">
+		<div class="tab-list" style="table-layout: fixed;" >
+			<ul>
+				<li>
+					<a>영화정보</a>
+				</li>
+				
+			</ul>
+		</div>
+		<div class="movie-summary infoContent" id="info" >
+			<div class="txt" id="mcontent" ></div>
+		</div>
+		<div class="movie-info infoContent">
+			<!-- <p>상영타입</p> -->
+			<div class="line">
+				<div id="dir"></div>
+				<div id="gen"></div>
+				<div id="oda"></div>
+			</div>
+			<div id="actor" >출연진&nbsp;: </div>
+			<div id="addFilmo">
+				<input type="text" id="filmoActor">
+				<input type="button" value="배우추가" onclick="addFilmoActor()">
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div id="contentData">
+	<div class="inner-wrap">
+		<div class="tab-list" style="table-layout: fixed;" >
+			<ul>
+				<li>
+					<a>관람평</a>
+				</li>
+			</ul>
+		</div>
+		<div class="container">
+		    <form name="reivewInsertForm">
+		        <div class="input-group">
+		           <input type="hidden" name="seq" value="${seq}"/>
+		           <input type="text" class="form-control" id="rcontent" name="rcontent" placeholder="내용을 입력하세요.">
+		           <select id="inputscore" name="score">
+		           		<option value="1" selected="selected">1</option>
+		           		<option value="2">2</option>
+		           		<option value="3">3</option>
+		           		<option value="4">4</option>
+		           		<option value="5">5</option>
+		           		<option value="6">6</option>
+		           		<option value="7">7</option>
+		           		<option value="8">8</option>
+		           		<option value="9">9</option>
+		           		<option value="10">10</option>
+		           </select>
+		           <span class="input-group-btn">
+		                <button class="btn btn-default" type="button" name="reviewInsertBtn" onclick="reviewInsert()">등록</button>
+		           </span>
+		          </div>
+		    </form>
+		</div>
+		<div class="container">
+		    <div class="reviewList"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var seq = params.seq;
+let actorid;
+
+$.ajax({
+	url:'http://18.116.239.140:3000/getActor',
+	type:'get',
+	data: {'seq':seq},
+	success:function(list){
+
+		$.each(list, function (i, item) {
+		let	str = "<a onclick=moveActor("+ item.aid + ") >" + item.actor + "</a>&nbsp;";
+			$("#actor").append(str);
+		})
+	
+	},
+	error:function(){
+		alert('getActorerror');
+	}
+	
+});
+
+if(user.auth!=0){
+	$("#addFilmo").hide();
+}
+
+function addFilmoActor(){
+	$.ajax({
+		url:'http://18.116.239.140:3000/filmo',
+		type:'post',
+		data: {'fseq':seq, 'Actor':$("#filmoActor").val()},
+		success:function(msg){
+			if(msg=="success"){
+				alert("배우를 추가하였습니다.")
+				location.reload();
+			}else{
+				alert("해당배우가 존재하지 않습니다.")
+			}
+		},
+		error:function(){
+			alert("서버에 오류가 있습니다.");
+		}
+	});
+}
+
+function moveActor(aid) {
+	movePage("movie/actordetail.html");
+	sessionStorage.setItem("aid", aid);
+	
+}
+ 
+$(document).ready(function () {
+	$.ajax({
+		url:'http://18.116.239.140:3000/moviedetail',
+		type:'get',
+		data:{ 'seq':seq },
+		success:function(data){ 
+			$("#title").text( data.title );
+			$("#genre").text( data.genre );
+			$("#mcontent").html(data.content);
+			$("#director").text( data.director );
+			$("#odate").text( data.odate);
+			$("#score").text( data.score );
+			$("#vid").attr("src",'./video/'+ seq+'.mp4')
+			$("#dir").html("감독&nbsp;: " + data.director + "<br>");
+			$("#gen").html("장르&nbsp;: " + data.genre + "<br>");
+			$("#oda").html("개봉일&nbsp;: " + data.odate + "<br>");
+			
+			vimg = $('<img>', {	'src' : './image/'+seq+'.jpg'	
+		});
+		$(vimg).appendTo('#wrap');	
+		},error:function(){
+			alert('~~error');
+		}
+	});
+});
+
+
+
+ 
+ 
+//댓글 목록 
+function reviewList(){
+    $.ajax({
+        url : 'http://18.116.239.140:3000/reviewlist',
+        type : 'get',
+        data : {'seq':seq},
+        success : function(data){
+            var a =''; 
+            $.each(data, function(key, value){ 
+                a += '<div class="reviewArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+                a += '<div class="reviewInfo('+value.rnum+')">'+'작성자 : '+value.id+'</div>';
+                a += '<div class="reviewScore('+value.rnum+')"> <p> 평점 : '+value.score+'</p>';
+                a += '</div>'
+                a += '<div class="reviewContent('+value.rnum+')"> <p> 내용 : '+value.content +'</p>';
+                a += '</div>'
+                a += '<div class="reviewDate('+value.rnum+')" style="text-align: right;"> <p>'+value.wdate+'</p>';
+                a += '</div>';
+                a += '</div>';
+            });
+            
+            $(".reviewList").html(a);
+        }
+    });
+}
+ 
+//댓글 등록
+function reviewInsert(){
+    $.ajax({
+        url : 'http://18.116.239.140:3000/reviewinsert',
+        type : 'post',
+        data : {'seq':seq, 'content':$("#rcontent").val(), 'id':user.id, 'score':Number($("#inputscore").val())},
+        success : function(data){
+            if(data == "success") {
+                location.reload(); //댓글 작성 후 댓글 목록 reload
+            }
+        }
+    });
+}
+ 
+//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
+function reviewUpdate(rnum, content){
+    var a ='';
+    
+    a += '<div class="input-group">';
+    a += '<input type="text" class="form-control" name="content_'+rnum+'" value="'+content+'"/>';
+    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="reviewUpdateProc('+rnum+');">수정</button> </span>';
+    a += '</div>';
+    
+    $('.reviewContent'+rnum).html(a);
+    
+}
+ 
+//댓글 수정
+function reviewUpdateProc(rnum){
+    var updateContent = $('[name=content_'+rnum+']').val();
+    
+    $.ajax({
+        url : 'http://18.116.239.140:3000/reviewupdate',
+        type : 'post',
+        data : {'content' : updateContent, 'rnum' : rnum},
+        success : function(data){
+            if(data == 1) commentList(bno); //댓글 수정후 목록 출력 
+        }
+    });
+}
+
+ 
+//댓글 삭제 
+function reivewDelete(rnum){
+    $.ajax({
+        url : 'http://18.116.239.140:3000/reviewdelete/'+rnum,
+        type : 'post',
+        success : function(data){
+            if(data == 1) reviewList(seq);  //댓글 삭제후 목록 출력 
+        }
+    });
+}
+ 
+ 
+ 
+ 
+$(document).ready(function(){
+    reviewList(); //페이지 로딩시 댓글 목록 출력 
+});
+ 
+</script>

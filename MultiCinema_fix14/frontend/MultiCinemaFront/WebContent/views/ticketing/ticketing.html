@@ -1,0 +1,312 @@
+<meta charset="UTF-8">
+<script type="text/javascript">
+// 상영 날짜
+$.datepicker.setDefaults({
+    dateFormat: 'yyyy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+ 	minDate: "0",
+ 	  onSelect: function (dateText, inst) {
+ 			$('#tkdateR').val(dateText.substring(4,14)); 
+ 			
+ 			$.ajax({
+ 				url : "http://18.116.239.140:3000/mtitle",
+ 				type : 'post',
+ 				data : { 'sdate':$("#tkdateR").val() },
+ 				success : function(list) {
+ 					
+ 					$("#mtitle").empty();	// append 초기화
+ 					$("#mtime").empty();
+ 					$("#seat").hide();	
+ 					
+ 					if(list.length == 0){
+ 						$("#mtitle").empty();
+ 						let no =  "<option>" + '***금일 상영하실 영화가 없습니다.***' + "</option>";
+ 						$("#mtitle").append(no);
+ 						
+ 					}else if (list.length > 0) {
+ 						$("#mtitle").empty();
+ 						let first = "<option>"+ '영화 선택' +"</option>";
+ 	 					$("#mtitle").append(first);
+ 	 					
+ 				 		for (i = 0; i < list.length; i++) {
+ 							let str = "<option>"+list[i].title+ "</option>";
+ 							$("#mtitle").append(str);  
+ 						}
+ 					}
+ 				},
+ 				error : function() {
+ 					alert('error');
+ 				}
+ 			});
+ 	  }
+});
+$(function() {
+  $( "#tkdate" ).datepicker();
+});
+
+// 영화 제목
+$(document).ready(function() {
+	
+	var today = new Date();
+
+	var year = today.getFullYear();
+	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+	var day = ('0' + today.getDate()).slice(-2);
+
+	var dateString = year + '-' + month  + '-' + day;
+	
+	var hours = ('0' + today.getHours()).slice(-2); 
+	var minutes = ('0' + today.getMinutes()).slice(-2);
+	var seconds = ('0' + today.getSeconds()).slice(-2); 
+
+	var timeString = hours + ':' + minutes  + ':' + seconds;
+
+	var time = dateString + " " + timeString;
+	
+	
+	$("#mtitle").on("change", function() {
+		// 선택한 날짜
+		let day = ($("#tkdateR").val());
+		// 다음날 00시
+		let ymp = ($("#tkdateR").val().substring(0,8));
+		let dayp = ( Number($("#tkdateR").val().substring(8,10))+1 );
+		let dayplus1 = ymp + dayp + " 00:00:00";
+		
+		let mtitle = this.value;
+		
+		let title = $("#mtitle").val();
+		let date = $("#mtime").val();	
+		
+		// 선택 시 좌석화면 유 무
+		$("#seat").hide();
+		$.ajax({
+			url:'http://18.116.239.140:3000/mtime',
+			type:'post',
+			data:{ 'title':this.value },
+			success:function(list){
+				$("#mtime").empty();	// append 초기화
+				let first = "<option>"+ '시간 선택' +"</option>";
+	 			$("#mtime").append(first);
+					for (i = 0; i < list.length; i++) {
+						if ( list[i].sdate >= day && dayplus1 > list[i].sdate && list[i].sdate > time) { // 상영 시간 -> 선택한 날짜 && 다음날 00시 && 현재날짜
+							let mdate = "<option value='"+list[i].msnum+"'>"+list[i].sdate.substring(11, 16) + ' ~ ' + list[i].edate.substring(11, 16)+ "</option>";
+							$("#mtime").append(mdate);
+						}
+					}
+				},
+			error:function(){
+				alert('error');
+			}		
+		});
+	});
+});
+
+$("#seat").hide();	// 좌석 테이블
+
+$("#payid").val(id);
+var preseat="";
+// 상영 시간
+$("#mtime").on("change", function() {
+	let msnum = ($("#mtime").val());	 // msnum
+	$("#paymsnum").val(msnum);
+	
+	$.ajax({
+		url:'http://18.116.239.140:3000/mmsnum',
+		type:'post',
+		data:{ 'msnum' : msnum },
+		success:function(list){
+			$("#paytitle").val(list[0].title);
+			$("#paytheater").val(list[0].theater);
+			$("#paytime").val(list[0].sdate.substring(0, 16)+ " ~ " + list[0].edate.substring(11, 16));
+			$("#payprice").val(list[0].price);
+			$("#paysdate").val(list[0].sdate);
+			$("#payedate").val(list[0].edate);
+			
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+	
+	let ticket = $("#ticket").val();
+	
+	$("#seat").show();		// 좌석보여주기
+	$("#ticket").empty();	// 초기화
+	
+	var preseat="";
+	for(var i=1;i<8;i++){
+		for(var j=1;j<18;j++){
+			var input = "<input type='checkbox' style='width:30px;height:30px;' class='seat' id='"+String.fromCharCode(64+i)+j+"'>";
+			$("#ticket").append(input);
+			if(j==4 || j==13) {
+				$("#ticket").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+			}
+		}
+		$("#ticket").append("<br>");
+	}
+	
+	$(".seat").click(function(){	
+		$("#tpay").hide();
+		if(preseat!=="" && preseat!==this.id){
+			$("#"+preseat).prop("checked",false);
+		}
+		preseat=this.id;
+		$("#payseat").val(preseat);	// 결제창에서 좌석번호
+	});
+	
+	// 날짜, 제목, 시간에 따른 좌석 보여주기
+	$.ajax({
+		url:'http://18.116.239.140:3000/seat',
+		type:'post',
+		data:{ 'msnum' : msnum },
+		success:function(list){
+			
+			for(i=0; i < list.length; i++){
+				if($("#"+list[i])){		// 아이디가 일치하면
+					$("#"+list[i]).prop("checked",true);	// 체크해준다.
+					$("#"+list[i]).prop("disabled",true);	// 수정못하게 해줌
+				}
+				
+			}
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+	
+	$("#tpay").hide();	// 금액가리기
+	
+	
+});
+// 좌석 선택완료 버튼 누를 시 결제창 보여주기
+$("#seatpick").click(function () {
+	$("#tpay").show();
+});
+
+function ticketpay() {
+	let msnum = $("#paymsnum").val();
+	let title = $("#paytitle").val();
+	let sdate = $("#paysdate").val();
+	let edate = $("#payedate").val();
+	let theater = $("#paytheater").val();
+	let snum = $("#payseat").val();
+	let price = $("#payprice").val();
+	
+	$.ajax({
+		url:'http://18.116.239.140:3000/tikakaopay',
+		type:'get',
+		data:{ 'msnum':msnum, 'id':id, 'title':title, 'time':$("#paytime").val(),
+			'theater':theater, 'snum':snum, 'price':price},
+		dataType:'json',	
+		success:function(data){
+			alert(JSON.stringify(data));
+			tid=data.tid
+			alert(tid);
+			alert(data.next_redirect_pc_url);
+			sessionStorage.setItem("tid", data.tid);
+			inserttipay(tid, msnum, id, title, sdate, edate, theater, snum, price);
+			location.href = data.next_redirect_pc_url;
+			
+			function inserttipay(tid, msnum, id, title, sdate, edate, theater, snum, price) {
+				
+				$.ajax({
+					url: 'http://18.116.239.140:3000/inserttipay',
+					type:"get",
+					data:{'tid':tid, 'msnum':msnum, 'id':id, 'title':title, 'sdate': sdate, 'edate':edate, 'theater':theater, 'snum':snum, 'price': price },
+					success:function(resp){
+						
+						alert("success");
+					},
+					error:function(error){
+						alert("error");
+					}
+				});
+			}
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+}
+
+</script>
+
+<h2 align="center">티켓예매 페이지</h2><br>
+<div align="center">
+<table>
+<col width="350px"><col width="350px"><col width="350px">
+<thead align="center">
+	<tr>
+		<th align="center">상영 날짜</th>
+		<th align="center">영화 제목</th>
+		<th align="center">상영 시간</th>
+	</tr>
+</thead>
+
+<tbody>
+	<tr>
+		<th>
+			<div align="center" class="col" >
+				<br><div id="tkdate"></div> 
+				<input type="hidden" id="tkdateR">
+			</div>
+		</th>
+		
+		<th>
+			<select id="mtitle">
+			</select>
+		</th>
+		
+		<th>
+			<select id="mtime">
+			</select>
+		</th>
+		<th id="mtheater">
+		</th>
+	</tr>
+</tbody>
+</table>
+<br><br>
+
+
+<table id="seat"><col width="700px"><col width="350px">
+<thead align="center">
+</thead>
+
+<tbody align="center">
+	<tr>
+		<th><br>
+			<div><h2>SCREEN</h2><br></div>
+			<div id="ticket"></div><br>
+			<button id="seatpick">좌석선택</button>
+		</th>
+		<th id="tpay" align="right">
+			<div align="center">
+				<input type="hidden" readonly="readonly" size="25px" id="payid"><br>
+				<input type="hidden" readonly="readonly" size="25px" id="paymsnum"><br>
+				<input type="hidden" readonly="readonly" size="25px" id="paysdate"><br>
+				<input type="hidden" readonly="readonly" size="25px" id="payedate"><br>
+				영화제목 : <input readonly="readonly" size="25px" id="paytitle"><br>
+				상영시간 : <input readonly="readonly" size="25px" id="paytime"><br>&nbsp;
+				상영관 : <input readonly="readonly" size="25px" id="paytheater"><br>&nbsp;&nbsp;&nbsp;&nbsp;
+				좌석  : <input readonly="readonly" size="25px" id="payseat">
+			</div>
+			<br><br><br>
+			<div align="right">
+				<input id="payprice" size="5px" value="11000" readonly="readonly">원
+				<button onclick="ticketpay()">결제하기</button>
+			</div>
+		</th>
+		
+	</tr>
+</tbody>
+</table>
+</div>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.MovieScheduleDao">
+
+<insert id="addMS" parameterType="com.one.multicinemaback.dto.MovieScheduleDto">
+	INSERT INTO MOVIESCHEDULE(title, theater, sdate, edate, price) VALUES(#{title},#{theater},#{sdate},#{edate},#{price})
+</insert>
+
+<select id="mtitle" parameterType="String" resultType="com.one.multicinemaback.dto.MovieScheduleDto">
+	SELECT DISTINCT TITLE 
+	FROM movieschedule
+	WHERE sdate LIKE CONCAT(#{sdate}, '%')
+</select>
+
+<select id="mtime" parameterType="String" resultType="com.one.multicinemaback.dto.MovieScheduleDto">
+	SELECT * 
+	FROM movieschedule
+	WHERE title = #{title}
+</select>
+
+<select id="mmsnum" parameterType="Integer" resultType="com.one.multicinemaback.dto.MovieScheduleDto">
+	SELECT * 
+	FROM movieschedule
+	WHERE msnum = #{msnum}
+</select>
+
+
+</mapper>

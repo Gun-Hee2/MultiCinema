@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.MovieDao">
+
+<select id="getmovielist" parameterType="com.one.multicinemaback.dto.MovieDto" resultType="com.one.multicinemaback.dto.MovieDto">
+	SELECT 
+		*
+	FROM MOVIE ORDER BY SEQ
+</select>
+
+<select id="getMovie" parameterType="Integer" resultType="com.one.multicinemaback.dto.MovieDto">
+	SELECT  *
+	FROM MOVIE
+	WHERE SEQ=#{seq}
+</select>
+
+<insert id="addMovie" parameterType="com.one.multicinemaback.dto.MovieDto">
+	INSERT INTO MOVIE(title, genre, content, director, odate, score) VALUES(#{title},#{genre},#{content},#{director},#{odate},0)
+</insert>
+
+<update id="updateScore" parameterType="Integer">
+	UPDATE MOVIE
+            SET
+            SCORE = (select ROUND(avg(score),1) from review group by seq having seq=#{seq})
+        WHERE seq=#{seq}
+</update>
+
+</mapper>

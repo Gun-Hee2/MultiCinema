@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+//html에서 추가하면, parameter를 받을 수 있는 소스 : 추가만 해주면 된다.
+let urlParams = location.search.split(/[?&]/).slice(1).map(function(paramPair) {
+    return paramPair.split(/=(.+)?/).slice(0, 2);
+}).reduce(function(obj, pairArray) {
+    obj[pairArray[0]] = pairArray[1];
+    return obj;
+}, {});
+</script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+let tid = sessionStorage.getItem("tid");
+alert(tid);
+
+$.ajax({
+	url:"http://18.116.239.140:3000/deltipay",
+	type:"post",
+	data:{ "tid":tid },
+	success:function(resp){
+		if(resp == "success"){
+			alert("결제가 취소되었습니다.");
+		}else{
+			alert("error");
+		}
+		location.href = "/MultiCinemaFront/views/main.html?page=ticketing/ticketing.html";
+	},
+	error:function(){
+		alert('error');
+	}
+});
+</script>
+</body>
+</html>
