@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.ReviewDao">
+	 <select id="reviewCount" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM REVIEW
+    </select>
+    
+    <select id="reviewList" parameterType="Integer" resultType="com.one.multicinemaback.dto.ReviewDto">
+        SELECT
+            *
+        FROM REVIEW
+        WHERE SEQ=#{seq}
+        ORDER BY WDATE DESC
+    </select>
+    
+    
+    <insert id="reviewInsert" parameterType="com.one.multicinemaback.dto.ReviewDto">
+        INSERT INTO
+        REVIEW (SEQ, ID, WDATE, CONTENT, SCORE)
+        VALUES(#{seq},#{id},now(),#{content},#{score}) 
+    </insert>
+    
+    <update id="reviewUpdate" parameterType="com.one.multicinemaback.dto.ReviewDto">
+        UPDATE REVIEW
+            SET
+            CONTENT = #{content}
+        WHERE RNUM = #{rnum}
+    </update>
+    
+    <delete id="reviewDelete" parameterType="int">
+        DELETE FROM REVIEW WHERE RNUM = #{rnum}
+    </delete>
+
+
+
+
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.BbsDao">
+
+<select id="getbbslist" parameterType="com.one.multicinemaback.dto.BbsParam" resultType="com.one.multicinemaback.dto.BbsDto">
+    SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT 
+	FROM ( SELECT ROW_NUMBER()OVER(ORDER BY REF DESC, STEP ASC) AS RNUM,
+	           SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT
+	       FROM BBS    
+	       WHERE 1=1
+	     <if test="choice != null and choice != ''
+		  		and search != null and search != ''">		  	  
+			  <if test="choice == 'title'">
+			  		AND TITLE LIKE CONCAT('%',#{search},'%')		  
+			  </if>
+			  <if test="choice == 'content'">
+			  		AND CONTENT LIKE CONCAT('%',#{search},'%')		  
+			  </if>
+			  <if test="choice == 'writer'">
+			  		AND ID=#{search}  
+			  </if>	
+		 </if>
+	       ORDER BY REF DESC, STEP ASC)bbslist
+	WHERE RNUM BETWEEN #{start} AND #{end}       
+	
+</select>
+
+<!-- 글의 총수 -->
+<select id="getbbscount" parameterType="com.one.multicinemaback.dto.BbsParam" resultType="java.lang.Integer">
+    SELECT IFNULL(COUNT(*), 0) AS CNT
+    FROM BBS
+    WHERE 1=1
+	     <if test="choice != null and choice != ''
+		  		and search != null and search != ''">		  	  
+			  <if test="choice == 'title'">
+			  		AND TITLE LIKE CONCAT('%',#{search},'%')		  
+			  </if>
+			  <if test="choice == 'content'">
+			  		AND CONTENT LIKE CONCAT('%',#{search},'%')			  
+			  </if>
+			  <if test="choice == 'writer'">
+			  		AND ID=#{search}  
+			  </if>	
+		 </if>
+</select>
+
+<insert id="writeBbs" parameterType="com.one.multicinemaback.dto.BbsDto">
+    INSERT INTO BBS 
+				(ID, 
+				REF, STEP, DEPTH, 
+				TITLE, CONTENT, WDATE, DEL, READCOUNT)
+				VALUES
+				(#{ id }, 
+				(SELECT * FROM(SELECT IFNULL(MAX(REF), 0)+1 FROM BBS)temp), 0, 0,
+				#{ title }, #{ content }, NOW(), 0, 0)
+</insert>
+
+<update id="readcount" parameterType="Integer">
+    UPDATE BBS 
+    SET READCOUNT=READCOUNT + 1 
+    WHERE SEQ=#{ seq }
+</update>
+
+<select id="getBbs" parameterType="Integer" resultType="com.one.multicinemaback.dto.BbsDto">
+    SELECT SEQ, ID, REF, STEP, DEPTH, 
+    	   TITLE, CONTENT, WDATE, DEL, READCOUNT 
+	FROM BBS 
+	WHERE SEQ=#{ seq }
+</select>
+
+<update id="answerup" parameterType="com.one.multicinemaback.dto.BbsDto">
+    UPDATE BBS 
+    SET STEP=STEP+1 
+    WHERE REF = (SELECT * FROM(SELECT REF FROM BBS WHERE SEQ=#{ seq })temp)
+    AND STEP > (SELECT * FROM(SELECT STEP FROM BBS WHERE SEQ=#{ seq })temp)
+</update>
+
+<insert id="answerin" parameterType="com.one.multicinemaback.dto.BbsDto">
+    INSERT INTO BBS(ID,  
+                    REF, STEP, DEPTH, 
+                    TITLE, CONTENT, WDATE, DEL, READCOUNT) 
+    VALUES(#{ id }, 
+    (SELECT * FROM(SELECT REF FROM BBS WHERE SEQ=#{ seq } )temp),
+    (SELECT * FROM(SELECT STEP FROM BBS WHERE SEQ=#{ seq } )temp) + 1, 
+    (SELECT * FROM(SELECT DEPTH FROM BBS WHERE SEQ=#{ seq } )temp) + 1, 
+    #{ title }, #{ content }, NOW(), 0, 0)
+</insert>
+
+<update id="updateBbs" parameterType="com.one.multicinemaback.dto.BbsDto">
+    UPDATE BBS 
+    SET TITLE=#{ title }, 
+        CONTENT=#{ content }
+    WHERE SEQ=#{ seq }
+</update>
+
+<update id="deleteBbs" parameterType="Integer">
+    UPDATE BBS 
+    SET DEL=1 
+    WHERE SEQ=#{seq}
+</update>
+
+<select id="mybbslist" parameterType="String" resultType="com.one.multicinemaback.dto.BbsDto">
+	SELECT *
+	FROM BBS
+	WHERE ID=#{id}
+	ORDER BY wdate DESC;
+</select>
+
+</mapper>
+
+
+
+
+
+
+

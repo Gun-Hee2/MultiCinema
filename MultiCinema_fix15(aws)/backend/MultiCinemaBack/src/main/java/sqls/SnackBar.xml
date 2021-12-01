@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.SnackBarDao">
+
+<insert id="addSnackBar" parameterType="com.one.multicinemaback.dto.SnackBarDto">
+	INSERT INTO SNACKBAR(product, content, price, category) VALUES(#{product},#{content},#{price},#{category})
+</insert>
+
+<select id="snackbarlist" parameterType="java.lang.String" resultType="com.one.multicinemaback.dto.SnackBarDto">
+    SELECT * FROM SNACKBAR
+    WHERE CATEGORY=#{category}
+</select>
+
+<select id="snackbardetail" parameterType="java.lang.String" resultType="com.one.multicinemaback.dto.SnackBarDto">
+    SELECT * FROM SNACKBAR
+    WHERE PRODUCT=#{product}
+</select>
+
+</mapper>

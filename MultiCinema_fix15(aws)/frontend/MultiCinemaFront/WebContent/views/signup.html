@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SignUp page</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script>
+$.datepicker.setDefaults({
+	dateFormat: 'yyyy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    changeYear: true,
+    changeMonth: true,
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    yearRange: 'c-150:c',
+    maxDate: 'd',
+    onSelect: function (dateText, inst) {
+		$('#birth').val(dateText.substring(4,14)); 
+	}
+});
+$(function() {
+	$( "#birthDatePicker" ).datepicker();
+});
+</script>
+
+<style type="text/css">
+body {
+  background-image: url(./image/theater.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position:center;
+  position:relative;
+}
+form {
+  width:500px;
+  margin: 0px auto;
+  background: rgba(239,239,239,0.8);
+  padding: 10px 60px 10px 60px;
+  text-align: center;
+  -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+}
+label {
+  display: block;
+  position: relative;
+  margin: 10px 0px;
+}
+.label-txt {
+  position: absolute;
+  top: -1.6em;
+  padding: 10px;
+  font-family: sans-serif;
+  font-size: 0.8em;
+  letter-spacing: 1px;
+  color: #585858;
+  transition: ease .3s;
+}
+.input {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.line-box {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: #585858;
+}
+
+.line {
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #8BC34A;
+  transition: ease .6s;
+}
+
+.input:focus + .line-box .line {
+  width: 100%;
+}
+
+.label-active {
+  top: -3em;
+}
+
+button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #585858;
+  font-weight: bold;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: ease .3s;
+}
+
+button:hover {
+  background: #8BC34A;
+  color: #ffffff;
+}
+</style>
+</head>
+<body>
+
+<div>
+<form style="margin-top:50px">
+  <p style="font-size: 30px; font-weight: 700;">MultiCinema</p>
+  <div class="line-box">
+      <div class="line"></div>
+    </div>
+  <label>
+    <p class="label-txt">ENTER YOUR ID</p>
+    <input type="text" class="input" id="id" placeholder="아이디">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER YOUR PASSWORD</p>
+    <input type="text" class="input" id="pw" placeholder="비밀번호">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">CHECK YOUR PASSWORD</p>
+    <input type="text" class="input" id="pwc" placeholder="비밀번호 확인">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER YOUR NAME</p>
+    <input type="text" class="input" id="name" placeholder="이름">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER YOUR BIRTH</p>
+    <br>
+    <div id="birthDatePicker" align="center"></div> 
+	<input type="hidden" id="birth" value="">
+	<br>
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER YOUR EMAIL</p>
+    <input type="text" class="input" id="email" placeholder="이메일">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER YOUR PHONENUMBER</p>
+    <input type="text" class="input" id="phone" placeholder="010-0000-0000">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <button type="button" onclick="moveLogin()">돌아가기</button>
+  <button type="button" onclick="check()">회원가입</button>
+</form>
+</div>
+<script type="text/javascript">
+function moveLogin(){
+	location.href = "login.html";
+}
+function signup(){
+	$.ajax({
+		url:"http://3.138.157.37:3000/signup",
+		type:"post",
+		data:{ id:$("#id").val(), pw:$("#pw").val(), name:$("#name").val(), birth:$("#birth").val(), email:$("#email").val(), phone:$("#phone").val() },
+		success:function(resp){
+		//	alert('success');
+		//	alert(JSON.stringify(resp));
+		
+			alert("회원가입이 완료되었습니다.");
+			location.href="login.html";
+		
+		},
+		error:function(){
+			alert("회원가입에 실패하였습니다.");
+		}
+	});
+}
+function check(){
+	if($('#id').val().trim().length==0){
+		alert("ID를 입력해주세요.");
+		$('#id').focus();
+	} 
+	else if($('#pw').val().trim().length==0){
+		alert("PW를 입력해주세요.");
+		$('#pw').focus();
+	}else if($('#pw').val()!==$('#pwc').val()){
+		alert("PW가 서로 다릅니다.");
+		$('#pw').focus();
+	}else if($('#name').val().trim().length==0){
+		alert("이름을 입력해주세요.");
+		$('#age').focus();
+	}else if($('#birth').val().trim().length==0){
+		alert("생년월일을 입력해주세요.");
+		$('#birth').focus();
+	}else if($('#email').val().trim().length==0){
+		alert("e-mail을 입력해주세요.");
+		$('#email').focus();
+	}else if($('#phone').val().trim().length==0){
+		alert("전화번호를 입력해주세요.");
+		$('#phone').focus();
+	}else{
+		signup();
+	}
+}
+</script>
+</body>
+</html>
