@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style type="text/css">
+
+#sbtable{
+   border-collapse: separate;
+   border-spacing: 0 20px;
+
+}
+
+.snack{
+   border: 0;
+   outline: 0;
+}
+
+.snack:focus{
+   border: 0;
+   outline: 0;
+}
+
+.sbbold{
+   font-weight: bold;
+}
+
+</style>
+
+</head>
+<body>
+
+<div align="center">
+<table id="sbtable">
+       
+       <tr>
+       <td class="sbbold">콤보</td>
+       </tr>
+       <tr id="combo">
+           
+       </tr>    
+  
+       <tr>
+       <td class="sbbold">팝콘</td>
+       </tr>
+       <tr id="snack">
+       
+       </tr>
+       
+       <tr>
+       <td class="sbbold">음료</td>
+       </tr>
+       <tr id="drink">
+       
+       </tr>
+       
+</table>
+</div>
+
+<script type="text/javascript">
+
+getsnackbar('combo');
+getsnackbar('snack');
+getsnackbar('drink');
+
+
+function getsnackbar(sort){
+	$.ajax({
+		url:'http://18.117.250.219:3000/snackbarlist',
+		type:"get",
+		data:{ category:sort},
+		success:function(list){
+			
+			for(i = 0; i < list.length; i++){
+				let str = "<td>";
+				    str += "<button type='button' id='" + list[i].product + "' class='snack' onClick='menu_click(this.id)' style='background-color: white'>";
+					str += "<img src='./image/snackbar/" + list[i].product + ".png' width='250' onerror="+'"this.src='+"'image/null.png'"+'">' + "<br>";
+					str += "<span class='sbbold'>" + list[i].product + "</span><br>";
+				    str += "<span style='font-size: 10px; opacity: 0.5;'>" + list[i].content + "</span><br><br>";
+				    str += "<span style='font-weight: 900'>" + list[i].price + "원" + "</span>";
+				    str += "</button>";	
+				    str += "</td>";
+				
+				$("#"+ sort).append(str);   
+				
+			}
+			
+			
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+}
+
+function menu_click(product){
+	p_name=product;
+	movePage("snackbar/sbdetail.html&product=" + product);
+}
+
+</script>
+
+
+</body>
+</html>

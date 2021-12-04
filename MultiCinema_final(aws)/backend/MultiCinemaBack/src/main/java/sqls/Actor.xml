@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.ActorDao">
+
+<insert id="addActor" parameterType="com.one.multicinemaback.dto.ActorDto">
+	INSERT INTO ACTOR(actor, age, country, career) VALUES(#{actor},#{age},#{country},#{career})
+</insert>
+
+<select id="getAid" parameterType="String" resultType="com.one.multicinemaback.dto.ActorDto">
+	SELECT *
+	FROM ACTOR
+	WHERE ACTOR = #{actor}
+</select>
+
+
+<select id="getActor" parameterType="Integer" resultType="com.one.multicinemaback.dto.ActorDto">
+	SELECT A.ACTOR AS ACTOR, A.AID AS AID
+	FROM ACTOR A, FILMOGRAPHY F, MOVIE M
+	WHERE M.SEQ = #{seq}
+	AND F.FSEQ = M.SEQ
+	AND A.AID = F.FAID	
+</select>
+
+<select id="getActorInfo" parameterType="Integer" resultType="com.one.multicinemaback.dto.ActorDto">
+	SELECT AID, ACTOR, AGE, COUNTRY, CAREER
+	FROM ACTOR 
+	WHERE AID=#{aid}
+</select>
+
+<select id="getActorMovie" parameterType="Integer" resultType="com.one.multicinemaback.dto.MovieDto">
+	SELECT M.TITLE AS TITLE
+	FROM MOVIE M, FILMOGRAPHY F, ACTOR A
+	WHERE A.AID = #{aid}
+	AND F.FSEQ = M.SEQ
+	AND A.AID = F.FAID;
+</select>
+
+</mapper>

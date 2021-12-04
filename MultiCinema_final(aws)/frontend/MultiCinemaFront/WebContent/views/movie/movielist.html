@@ -1,0 +1,56 @@
+<meta charset="UTF-8">
+
+<div id="contents">
+	<div class="inner-wrap">
+		<div class="movie-list">
+			<ol class="list" id="mlist">
+			</ol>
+		</div>
+	
+	</div>
+</div>
+<script type="text/javascript">
+let movietitle;
+getmovielist();
+function getmovielist( ) {
+		
+	$.ajax({
+		url:'http://18.117.250.219:3000/movielist',
+		type:"get",
+		data:{},
+		success:function(list){
+			$("#mlist").html("");
+			$.each(list, function (i, item) {
+				
+				let str = "<li>";
+			    str += "<div class = movie-list-info align='left'>" + "<img src=./image/"+item.seq+".jpg class=poster onerror="+'"this.src='+"'image/null.png'"+'">';
+			    str += "<p class=rank>" + (i + 1) + "<span class=ir>" + "</span>"  + "</p>";
+			    str += "<div class='movie-detail' style='opacity: 0;'>";
+			    str += "<a class='wrap movieBtn' onclick=moveURL("+item.seq+")>" + item.seq + "</a>"
+			    str += "</div>";
+			    str += "</div>";
+				str += "<div class=title-area>" + "<span class=tit>" + item.title.replaceAll(".",":") + "</span>" + "</div>";
+				str += "<div class=rate-date>";
+				str += "<span class=date>개봉일  " + item.odate.substring(0, 10).replaceAll("-",".") + "</span>";
+				str += "</div>";
+				str += "</li>";
+		
+				$("#mlist").append(str);
+			})		
+		},
+		error:function(){
+			alert('error');
+		}
+		
+		
+	});	
+	
+	
+}
+
+function moveURL(seq) {
+	movePage("movie/moviedetail.html&seq=" + seq);
+}
+ 
+</script>
+	

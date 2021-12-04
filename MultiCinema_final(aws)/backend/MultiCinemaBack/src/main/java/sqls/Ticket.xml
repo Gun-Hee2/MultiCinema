@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.one.multicinemaback.dao.TicketDao">
+
+<!-- 유저 티켓팅 -->
+<select id="mypage" parameterType="com.one.multicinemaback.dto.TicketDto" resultType="com.one.multicinemaback.dto.TicketDto">
+	SELECT tid, msnum, id, title, bdate, sdate, edate, theater, snum, price		
+	FROM TICKET 
+	WHERE ID=#{id}
+</select>
+
+<!-- 당일예약 리스트 -->
+<select id="getTodayList" parameterType="String" resultType="com.one.multicinemaback.dto.TicketDto">
+	SELECT tid, msnum, id, title, bdate, sdate, edate, theater, snum, price
+	FROM TICKET
+	WHERE ID=#{id} AND sdate > NOW()
+	ORDER BY sdate;
+</select>
+
+<!-- 과거예약 리스트 -->
+<select id="getPastList" parameterType="String" resultType="com.one.multicinemaback.dto.TicketDto">
+	SELECT tid, msnum, id, title, bdate, sdate, edate, theater, snum, price
+	FROM TICKET
+	WHERE ID=#{id} AND NOW() >= sdate
+	ORDER BY sdate DESC;
+</select>
+
+<!-- 예매하기 좌석보여주기-->
+<select id="getSeatList" parameterType="com.one.multicinemaback.dto.TicketDto" resultType="String">
+	SELECT snum 
+	FROM Ticket
+	WHERE  msnum = #{msnum};
+</select>
+
+<!-- 카카오페이 결제 -->
+<insert id="inserttipay" parameterType="com.one.multicinemaback.dto.TicketDto">
+    INSERT INTO TICKET(tid, msnum, id, title, bdate, sdate, edate, theater, snum, price )
+     VALUES(#{tid},#{msnum},#{id},#{title}, NOW(),#{sdate},#{edate},#{theater},#{snum},#{price})
+</insert>
+
+<select id="gettipay" parameterType="com.one.multicinemaback.dto.TicketDto" resultType="com.one.multicinemaback.dto.TicketDto">
+    SELECT * FROM TICKET WHERE TID=#{tid}
+</select>
+
+<delete id="deltipay" parameterType="com.one.multicinemaback.dto.TicketDto">
+    DELETE FROM TICKET WHERE TID=#{tid}
+</delete>
+
+</mapper>

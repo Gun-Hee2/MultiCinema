@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style type="text/css">
+.tdl{
+   width: 20%;
+}
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="app" class="container" style="margin-top: 60px">
+	<table class="table table-striped">		
+		<tr>
+			<th class="tdl">작성자</th>
+			<td id="id"></td>
+		</tr>
+		<tr>
+			<th class="tdl">제목</th>
+			<td id="title"></td>
+		</tr>
+		<tr>
+			<th class="tdl">작성일</th>
+			<td id="wdate"></td>
+		</tr>
+		<tr>
+			<th class="tdl">조회수</th>
+			<td id="readcount"></td>
+		</tr>		
+		<tr>
+			<th class="tdl">내용</th>
+			<td>
+				<textarea class="form-control" rows="20" id="contents" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</table>
+	
+	<button type="button" id="bbslist" style="background-color: #585858; color: white; font-weight: 600; border-radius: 2px; padding: 5px; width: 90px; height: 40px;">글목록</button>&nbsp;
+    <button type="button" id="bbsanswer" style="background-color: #585858; color: white; font-weight: 600; border-radius: 2px; padding: 5px; width: 72px; height: 42px;">답글</button>&nbsp;
+   
+    <button type="button" id="bbsupdate" style="background-color: #585858; color: white; font-weight: 600; border-radius: 2px; padding: 5px; width: 90px; height: 40px;">글수정</button>&nbsp;   
+    <button type="button" id="bbsdelete" style="background-color: #585858; color: white; font-weight: 600; border-radius: 2px; padding: 5px; width: 90px; height: 40px;">글삭제</button>
+</div>
+
+<script type="text/javascript">
+
+var seq = params.seq;
+var page = params.page;
+
+$.ajax({
+	url:'http://18.117.250.219:3000/bbsdetail',
+	type:'get',
+	data:{ 'seq':seq },
+	success:function(data){
+		$("#id").text( data.id );
+		$("#title").text( data.title );
+		$("#wdate").text( data.wdate );
+		$("#readcount").text( data.readcount );
+		$("#contents").val( data.content );	// textarea
+		
+		// login한 id와 다를 때는 수정과 삭제를 할 수 없도록 처리  
+		let login = JSON.parse(sessionStorage.getItem("login"));
+		if(data.id != login.id){
+			$("#updatebbs").hide(); // 나타내지 말아라
+			$("#deletebbs").hide();
+		}		
+	},
+	error:function(){
+		alert('error');
+	}		
+});
+
+$("#bbslist").click(function() {
+	movePage("bbs/bbslist.html");
+});
+
+$("#bbsanswer").click(function() {
+	if(user.auth==0){
+		movePage("bbs/bbsanswer.html&seq=" + seq);
+	}
+	else{
+		alert("운영자가 아닙니다.");
+	}
+});
+
+$("#bbsupdate").click(function() {
+	if(user.id==$("#id").text()){
+		movePage("bbs/bbsupdate.html&seq=" + seq);
+	}
+	else{
+		alert("작성자가 아닙니다.");
+	}
+});
+
+$("#bbsdelete").click(function() {
+	if(user.id==$("#id").text()){
+		$.ajax({
+			url:"http://18.117.250.219:3000/bbsdelete",
+			type:"get",
+			data:{ 'seq':seq },
+			success:function(resp){
+				if(resp == "YES"){
+					alert('글이 삭제되었습니다');
+				}else{
+					alert('답글이 삭제되지 않았습니다');
+				}			
+				movePage("bbs/bbslist.html");
+			},
+			error:function(){
+				alert('error');
+			}
+		});
+	}
+	else{
+		alert("작성자가 아닙니다.");
+	}
+	
+});
+
+
+
+</script>
+
+</body>
+</html>
+
+
+
+

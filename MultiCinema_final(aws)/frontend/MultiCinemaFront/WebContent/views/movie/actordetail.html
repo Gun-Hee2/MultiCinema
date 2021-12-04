@@ -1,0 +1,56 @@
+<meta charset="UTF-8">
+
+<div id="acontents" style="height:500px">
+	<div class="tit-heading-wrap">
+		<h3 style="text-align: left;">배우</h3>
+	</div>
+	<div class="wrap-people" style="padding-top: 20px;">
+		<div class="sect-base-people">
+			<div class="sect-base">
+				<div class="box-image">
+					<span class="thumb-image"></span>
+				</div>
+				<div class="box-contents">
+					<div class="title">
+						<strong id="actor" class="actor"></strong>
+					</div>
+					<div class="spec">
+						<dl>
+							<dt>나이</dt>
+							<dd id="age"></dd>
+							<dt>국적</dt>
+							<dd id="country"></dd>
+							<dt>수상경력</dt>
+							<dd id="career"></dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+var aid = sessionStorage.getItem("aid");
+
+$.ajax({
+	url:'http://18.117.250.219:3000/actordetail',
+	type:'get',
+	data:{ 'aid':aid },
+	success:function(data){
+		$("#actor").html( data.actor);
+		$("#age").html( data.age );
+		$("#country").html( data.country );
+		$("#career").html( data.career );
+		 
+		vimg = "<img id='vvimg' src=./image/actor/"+aid+".jpg class=poster onerror="+'"this.src='+"'image/null.png'"+'">';
+		$(vimg).appendTo('.thumb-image');
+	},
+	error:function(){
+		alert('error');
+	}
+});
+$("vimg").on("error", function () {
+    $(this).attr("src", "image/null.png");
+});
+</script>

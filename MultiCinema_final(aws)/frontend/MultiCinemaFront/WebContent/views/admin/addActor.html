@@ -1,0 +1,62 @@
+<meta charset="UTF-8">
+<div align="center">
+<table class="table table-striped table-hover">
+<tr>
+	<th>이름</th>
+	<td><input type="text" id="actor" size="35" class="form-control" placeholder="이름을 입력해주세요."></td>
+</tr>
+<tr>
+	<th>나이</th>
+	<td><input type="text" id="age" size="35" class="form-control" placeholder="나이를 입력해주세요."></td>
+</tr>
+<tr>
+	<th>국가</th>
+	<td><input type="text" id="country" size="35" class="form-control" placeholder="국가를 입력해주세요."></td>
+</tr>
+<tr>
+	<th>수상내역</th>
+	<td><textarea id="career" cols="37" rows="10" class="form-control" placeholder="수상내역을 입력해주세요."></textarea></td>
+</tr>
+</table>
+<input type="button" value="등록" onclick="check()" id="bbsanswer" style="background-color: #585858; color: white; font-weight: 600; border-radius: 2px; padding: 5px; width: 72px; height: 42px;">
+
+<script type="text/javascript">
+function addActor(){
+	$.ajax({
+		url:"http://18.117.250.219:3000/actor",
+		type:"post",
+		data:{ aid:0, actor:$("#actor").val(), age:$("#age").val(), country:$("#country").val(), career:$("#career").val()},
+		success:function(resp){
+			alert("배우등록이 완료되었습니다.");
+			$('#actor').val("");
+			$('#age').val("");
+			$('#country').val("");
+			$('#career').val("");
+		},
+		error:function(){
+			alert("배우등록이 실패하였습니다.");
+		}
+	});
+}
+function check(){
+	if($('#actor').val().trim().length==0){
+		alert("배우를 입력해주세요.");
+		$('#actor').focus();
+	}else if($('#age').val().trim().length==0){
+		alert("나이를 입력해주세요.");
+		$('#age').focus();
+	}else if(isNaN($('#age').val())){
+		alert("나이는 숫자로 입력해주세요");
+		$('#age').focus();
+	}else if($('#country').val().trim().length==0){
+		alert("국가를 입력해주세요.");
+		$('#counrtry').focus();
+	}else if($('#career').val().trim().length==0){
+		alert("수상내역을 입력해주세요.");
+		$('#career').focus();
+	}else{
+		addActor();
+	}
+}
+</script>
+</div>

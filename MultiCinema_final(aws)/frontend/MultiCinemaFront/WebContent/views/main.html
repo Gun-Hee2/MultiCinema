@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Multi Cinema</title>
+<script type="text/javascript" src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/movie.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/themify/themify-icons.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/lightbox2/css/lightbox.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+<script type="text/javascript">
+//html에서 추가하면, parameter를 받을 수 있는 소스 : 추가만 해주면 된다.
+let user = JSON.parse(sessionStorage.getItem("login"));
+if(user==null){
+	alert("로그인이 필요합니다.");
+	location.href="login.html";
+}
+let id = user.id
+let idChcek = user.id;
+
+function getURLParams(url) {
+    var result = {};
+    url.replace(/[?&]{1}([^=&#]+)=([^&#]*)/g, function(s, k, v) { result[k] = decodeURIComponent(v); });
+    return result;
+}
+
+var params = getURLParams(location.search);
+$.ajax({
+	url:params.page,
+	success:function(resp){
+		$("#content").html(resp);
+	}
+}); 
+
+function movePage(page){
+	location.href = "main.html?page=" + page;
+}
+
+function getchatbot(){
+	$.ajax({
+		url:"chatbot.html",
+		success:function(resp){
+			$("#chatbot").html(resp);
+		}
+	});
+}
+
+var temp;
+
+getchatbot();
+</script>
+<body class="animsition" style="font-family:'Noto Sans KR';">
+<header style="width:100%;">
+	<img src="./image/main/headerImg.jpg" width="100%" height="200px">
+</header>
+<header>
+		<!-- Header desktop -->
+		<div class="wrap-menu-header gradient1 trans-0-4">
+			<div class="container h-full">
+				<div class="wrap_header trans-0-3">
+					<!-- Logo -->
+					<div class="logo">
+						<a href="main.html?page=init.html">
+							<img src="images/icons/logo.png" alt="IMG-LOGO" data-logofixed="images/icons/logo2.png">
+						</a>
+					</div>
+
+					<!-- Menu -->
+					<div class="wrap_menu p-l-45 p-l-0-xl" align="center"><br>
+						<nav class="menuTwo" >	<!-- 이거 main이랑 겹쳐서 Two 붙혔어 -->
+							<ul class="main_menu" id="main_menu" >
+								<li>
+									<a onclick="movePage('movie/movielist.html')">영화</a>
+								</li>
+
+								<li>
+									<a onclick="movePage('ticketing/ticketing.html')">예매하기</a>
+								</li>
+
+								<li>
+									<a onclick="movePage('snackbar/snackbar.html')">스낵/음료</a>
+								</li>
+
+								<li>
+									<a onclick="movePage('bbs/bbslist.html')">고객센터</a>
+								</li>
+
+								<li>
+									<a onclick="movePage('mypage/mypage.html')">My Page</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+					<!-- Social -->
+					<div class="social flex-w flex-l-m p-r-20">
+						<button class="btn-show-sidebar m-l-33 trans-0-4"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+<!-- Sidebar -->
+	<aside class="sidebar trans-0-4">
+		<!-- Button Hide sidebar -->
+		<button class="btn-hide-sidebar ti-close color0-hov trans-0-4"></button>
+
+		<!-- - -->
+		<ul class="menu-sidebar p-t-95 p-b-70">
+			<li class="t-center m-b-13">
+				<a onclick="movePage('init.html')">MultiCinema</a>
+			</li>
+
+			<li class="t-center m-b-13">
+				<a onclick="movePage('movie/movielist.html')">영화</a>
+			</li>
+
+			<li class="t-center m-b-13">
+				<a onclick="movePage('ticketing/ticketing.html')">예매하기</a>
+			</li>
+
+			<li class="t-center m-b-13">
+				<a onclick="movePage('snackbar/snackbar.html')">스낵/음료</a>
+			</li>
+
+			<li class="t-center m-b-13">
+				<a onclick="movePage('bbs/bbslist.html')">고객센터</a>
+			</li>
+
+			<li class="t-center m-b-33">
+				<a onclick="movePage('mypage/mypage.html')">My Page</a>
+			</li>
+
+			<li class="t-center" >
+				<!-- Button3 -->
+				<a  onclick="logout()" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto" style="color:white">
+					logout
+				</a>
+			</li>
+		</ul>
+
+	</aside>
+<div align="center">
+	<div id="content" style="width:100%; margin-top:10pt;"></div>
+</div>
+
+<div class="dim"></div>
+<div id="layerMovieTrailer" class="layer_wrap ty2 layer_movie_trailer" style="left: 50%; top: 50%; margin-top: -261px; margin-left: -485px;" tabindex="0">
+
+	<strong class="hidden">레이어 팝업 start</strong>
+	<div class="layer_header">
+		<button type="button" class="btn_close btnCloseLayer">팝업 닫기</button>
+	</div>
+	<div class="layer_contents">
+		<video height="100%" width="100%" controls="controls" id="vdoPlayer" src="" autoplay="autoplay" muted="muted"></video>
+	</div>
+	<strong class="hidden txtTabIndex" tabindex="0">레이어 팝업 end</strong>
+</div>
+
+
+<div id="chatbot"></div>
+<!-- Footer -->
+   <footer class="bg1" style="margin-top:50px">
+      <div class="container p-t-20 p-b-20">
+         <div class="row">
+            <div class="col-sm-6 col-md-4">
+               <!-- - -->
+               <h4 class="txt13 m-b-13">Contact Us</h4>
+
+               <ul class="m-b-30">
+                  <li class="txt14 m-b-14"><i
+                     class="fa fa-map-marker fs-16 dis-inline-block size19"
+                     aria-hidden="true"></i> 서울특별시 강남구 대치동 889-41</li>
+
+                  <li class="txt14 m-b-14"><i
+                     class="fa fa-phone fs-16 dis-inline-block size19"
+                     aria-hidden="true"></i> (+1) 02 000 0000</li>
+
+                  <li class="txt14 m-b-14"><i
+                     class="fa fa-envelope fs-13 dis-inline-block size19"
+                     aria-hidden="true"></i> Muticinema@naver.com</li>
+               </ul>
+
+               <!-- - -->
+               <h4 class="txt13 m-b-12">Opening Times</h4>
+
+               <ul>
+                  <li class="txt14">05:30 AM – 03:30 AM</li>
+
+                  <li class="txt14">Every Day</li>
+               </ul>
+            </div>
+
+            <div class="col-sm-6 col-md-4">
+               <!-- - -->
+               <h4 class="txt13 m-b-13">CEO</h4>
+
+               <div class="m-b-25">
+                  <p class="txt14">
+                     조장 : 김리영<br> 팀원 : 김원규<br> 팀원 : 도상우<br> 팀원 : 허건희
+                  </p>
+               </div>
+
+               <div>
+                  <h4 class="txt13 m-b-11">github</h4>
+                  <p class="txt14">
+                     <a href="https://github.com/kimry/MultiCinema" class="txt15">
+                        https://github.com/kimry/MultiCinema </a>
+                  </p>
+                  <span class="txt16"> 03 Dec 2021 </span>
+               </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4">
+               <!-- - -->
+               <h1 class="txt13 m-b-12">LOCATION</h1>
+
+               <div class="wrap-map-footer flex-w">
+                  <iframe
+                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d203146.95194623363!2d126.82480262439556!3d37.29107794591376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca512b1b5e77b%3A0x90048774d24a2a4f!2z66mA7Yuw7Lqg7Y287IqkIOyEoOumiQ!5e0!3m2!1sko!2skr!4v1638348575665!5m2!1sko!2skr"
+                     width="250" height="250" style="border: 0;" allowfullscreen=""
+                     loading="lazy"></iframe>
+               </div>
+            </div>
+         </div>
+      </div>
+   </footer>
+
+
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/bootstrap/js/popper.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/daterangepicker/moment.min.js"></script>
+	<script type="text/javascript" src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/slick/slick.min.js"></script>
+	<script type="text/javascript" src="js/slick-custom.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/parallax100/parallax100.js"></script>
+	<script type="text/javascript">
+        $('.parallax100').parallax100();
+	</script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+
+	<script src="js/main.js"></script>
+	
+<script type="text/javascript">
+if(user.auth==0){
+	temp="<li><a onclick="+'"movePage('+"'admin/admin.html')"+'">관리자 메뉴</a></li>';
+	$("#main_menu").append(temp);
+}
+function logout() {
+	alert('로그아웃 되었습니다.');
+	sessionStorage.clear();
+	location.reload();	
+}
+</script>
+</body>
+</html>

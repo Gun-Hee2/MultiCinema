@@ -1,0 +1,87 @@
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+
+<style type="text/css">
+.detail{
+   width: 45%;
+}
+#price{
+   white-space: nowrap;
+}
+#buybtn{
+   padding: 20px 120px;
+}
+#mbtn{
+   padding: 2px 8px;
+}
+#pbtn{
+   padding: 2px 8px;
+}
+</style>
+</head>
+<body>
+
+<div align="center" style="margin-top: 80px;">
+<table id="sbdetail" width="70%">  
+
+</table>
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+var product = params.product;
+
+getsbdetail();
+
+function getsbdetail(){
+	$.ajax({
+		url:'http://18.117.250.219:3000/snackbardetail',
+		type:"get",
+		data:{ "product":product },
+		success:function(sbdetail){
+			let str = "<tr>";
+			    str += "<td rowspan='4'><img src='./image/snackbar/" + sbdetail.product + ".png' width='400' height='350'  onerror="+'"this.src='+"'image/null.png'"+'">' + "</td>";
+			    str += "<td align='left' class='detail' colspan='2'><span style='font-size: 25px; font-weight: 600;'>" + sbdetail.product + "<hr></span></td>";
+			    str += "</tr>";
+			    str += "<tr><td width='20%' style='font-weight: 600;'>상품가격<hr></td><td align='left' class='detail' style='font-weight: 600;'>" + sbdetail.price + "원<hr></td><hr></tr>";
+			    str += "<tr><td style='font-weight: 600;'>구성품<hr></td><td align='left' class='detail' style='font-weight: 600; opacity: 0.5;'>" + sbdetail.content + "<hr></td></tr>";
+			    str += "<tr><div style='border:1px solid'><td align='center' class='detail' colspan='2'><button id='mbtn' type='button' style='float: left; background-color: #585858; color: white;' onclick='mcount("+ sbdetail.price +")'><span style='font-weight: 900'>-</span></button><span id='count' style='font-weight: 900'>1</span><button id='pbtn' type='button' style='float: right; background-color: #585858; color: white;' onclick='pcount("+ sbdetail.price +")'><span style='font-weight: 900'>+</span></button><hr></td></div><tr>";
+			    str += "<tr height='80'><td rowspan='2'></td><td align='right' class='detail' colspan='2'><span style='font-weight: 600;'>총 상품금액</span> &nbsp;&nbsp;<span id='price' style='font-size: 30px; font-weight: 600; color: #FF0040;'>" + sbdetail.price + "</span><span style='font-weight: 600;'>원</span></td></tr>";
+			    str += "<tr><td align='center' class='detail' colspan='2'><button id='buybtn' type='button' onclick='buybtn(count.innerHTML, price.innerHTML)' style='background-color: #FF0040; color: white; font-weight: 600;' width='50%'>구매하기</button></td></tr>";
+			
+			$("#sbdetail").append(str); 
+			
+
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+}
+
+function pcount(pprice){
+	let count = document.getElementById('count');
+	let price = document.getElementById('price');
+	count.innerHTML = parseInt($("#count").text()) + 1;
+	price.innerHTML = parseInt($("#price").text()) + parseInt(pprice);
+}
+
+function mcount(pprice){
+	let count = document.getElementById('count');
+	let price = document.getElementById('price');
+	if(count.innerHTML > 1){
+		count.innerHTML = parseInt($("#count").text()) - 1;
+		price.innerHTML = parseInt($("#price").text()) - parseInt(pprice);	
+	}
+}
+
+function buybtn(){
+	p_count=count.innerHTML;
+	p_price=price.innerHTML;
+	movePage("snackbar/sbpay.html&product=" + product + "&count=" + p_count + "&price=" + p_price);
+}
+</script>

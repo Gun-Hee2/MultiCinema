@@ -1,0 +1,44 @@
+<meta charset="UTF-8">
+<div align="center" style="width:70%; margin-top:30px">
+	<div align="left">
+		<a onclick="switchBtn('Actor')" style="text-decoration: none; font-weight: bold; font-size:18px;">배우 등록</a>
+		<div id="Actor"></div>
+		<input id="ActorSwitch" type="hidden" value="0">
+	</div>
+	<hr>
+	<div align="left">
+		<a onclick="switchBtn('Movie')" style="text-decoration: none; font-weight: bold; font-size:18px;">영화 등록</a>
+		<div id="Movie"></div>
+		<input id="MovieSwitch" type="hidden" value="0">
+	</div>
+	<hr >
+	<div align="left">
+		<a onclick="switchBtn('MS')" style="text-decoration: none; font-weight: bold; font-size:18px;">상영정보 등록</a>
+		<div id="MS"></div>
+		<input id="MSSwitch" type="hidden" value="0">
+	</div>
+	<hr>
+	<div align="left">
+		<a onclick="switchBtn('Product')" style="text-decoration: none; font-weight: bold; font-size:18px;">상품 등록</a>
+		<div id="Product"></div>
+		<input id="ProductSwitch" type="hidden" value="0">
+	</div>
+	<hr>
+</div>
+<script type="text/javascript">
+function switchBtn(page){
+	if($("#"+page+"Switch").val()=="0"){
+		$("#"+page+"Switch").val("1");
+		$.ajax({
+			url:"admin/add"+page+".html",
+			success:function(resp){
+				$("#"+page).html(resp);
+			}
+		});
+	}
+	else{
+		$("#"+page+"Switch").val("0")
+		$("#"+page).html("");
+	}
+}
+</script>
