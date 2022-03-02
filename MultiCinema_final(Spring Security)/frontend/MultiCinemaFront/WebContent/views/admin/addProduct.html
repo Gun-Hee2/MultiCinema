@@ -1,0 +1,64 @@
+<meta charset="UTF-8">
+<div align="center">
+<table border="1">
+<tr>
+	<td>상품명</td>
+	<td><input type="text" id="product" size="35"></td>
+</tr>
+<tr>
+	<td>카테고리</td>
+	<td>
+	<select id="category">
+		<option value="combo" selected>combo<option>
+		<option value="drink">drink<option>
+		<option value="snack">snack<option>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td>상품설명</td>
+	<td><textarea id="contents" cols=37 rows=10></textarea></td>
+</tr>
+<tr>
+	<td>가격</td>
+	<td><input type="text" id="price" size="35"></td>
+</tr>
+</table>
+<input type="button" value="등록" onclick="check()">
+
+<script type="text/javascript">
+function addProduct(){
+	$.ajax({
+		url:"http://3.138.157.37:3000/snackbar",
+		type:"post",
+		data:{ product:$("#product").val(), content:$("#contents").val(), price:$("#price").val(), category:$("#category").val()},
+		success:function(resp){
+			alert("상품등록이 완료되었습니다.");
+			$('#product').val("");
+			$('#contents').val("");
+			$('#price').val("");
+		},
+		error:function(){
+			alert("상품등록이 실패하였습니다.");
+		}
+	});
+}
+function check(){
+	if($('#product').val().trim().length==0){
+		alert("상품명을 입력해주세요.");
+		$('#actor').focus();
+	}else if($('#contents').val().trim().length==0){
+		alert("상품설명을 입력해주세요.");
+		$('#contents').focus();
+	}else if($('#price').val().trim().length==0){
+		alert("가격을 입력해주세요.");
+		$('#price').focus();
+	}else if(isNaN($('#price').val())){
+		alert("가격은 숫자로 입력해주세요");
+		$('#price').focus();
+	}else{
+		addProduct();
+	}
+}
+</script>
+</div>
