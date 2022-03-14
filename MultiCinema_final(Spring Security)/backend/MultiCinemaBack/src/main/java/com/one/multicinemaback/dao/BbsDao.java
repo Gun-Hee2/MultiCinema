@@ -40,6 +40,6 @@ public interface BbsDao extends Serializable {
 	// 글 삭제하기
 	boolean deleteBbs(BbsDto dto);
 	
-	// 내가 작성한 글 
+	// 내가 작성한 글  
 	List<BbsDto> mybbslist(String id);
 }
