@@ -3,18 +3,17 @@
 
 <mapper namespace="com.one.multicinemaback.dao.SbPayDao">
 
+<!-- 스낵바 카카오결제 내역 데이터 저장 -->	
 <insert id="insertsbpay" parameterType="com.one.multicinemaback.dto.SbPayDto">
     INSERT INTO SBPAY(TID, ID, PRODUCT, COUNT, PAYPRICE, SBDATE) VALUES(#{tid},#{id},#{product},#{count},#{payprice},NOW())
 </insert>
-
+	
+<!-- 스낵바 카카오결제 내역 데이터 불러오기 -->
 <select id="getsbpay" parameterType="java.lang.String" resultType="com.one.multicinemaback.dto.SbPayDto">
     SELECT * FROM SBPAY WHERE TID=#{tid}
 </select>
 
-<delete id="delsbpay" parameterType="java.lang.String">
-    DELETE FROM SBPAY WHERE TID=#{tid}
-</delete>
-
+<!-- 내 결제 내역 불러오기(마이 페이지) -->	
 <select id="getSbPayList" parameterType="String" resultType="com.one.multicinemaback.dto.SbPayDto">
 	SELECT *
 	FROM SBPAY
