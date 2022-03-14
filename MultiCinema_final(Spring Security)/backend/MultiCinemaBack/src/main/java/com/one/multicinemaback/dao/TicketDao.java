@@ -10,13 +10,13 @@ import com.one.multicinemaback.dto.TicketDto;
 @Mapper
 @Repository
 public interface TicketDao {
-        // 영화 티켓 예약리스트 불러오기
+        // 영화 티켓 예약리스트 불러오기(마이 페이지)
 	List<TicketDto> getTodayList(String id);
 	
-	// 영화 티켓 과거 예약리스트 불러오기
+	// 영화 티켓 과거 예약리스트 불러오기(마이 페이지)
 	List<TicketDto> getPastList(String id);
 	
-	// 영화  좌석 불러오기
+	// 영화  좌석 불러오기(영화 티켓 구매 페이지)
 	List<TicketDto> getSeatList(int msnum);
 	
 	// 영화 티켓 카카오결제 내역 데이터 저장
