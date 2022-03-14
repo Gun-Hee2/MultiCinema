@@ -32,7 +32,7 @@ public class KakaoPayController {
 	@Autowired
 	TicketService tiservice;
         
-	// 스낵바 카카오페이 
+	// 스낵바 카카오페이 결제
 	@RequestMapping(value = "/sbkakaopay", method =RequestMethod.GET)
 	public String kakaopay(String id, String product, String count, String payprice) throws UnsupportedEncodingException {
 		System.out.println("KakaoPayController sbkakaopay()");
