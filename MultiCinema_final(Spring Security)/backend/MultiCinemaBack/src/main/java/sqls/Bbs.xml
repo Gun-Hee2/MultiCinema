@@ -3,12 +3,14 @@
 
 <mapper namespace="com.one.multicinemaback.dao.BbsDao">
 
+<!-- 고객센터 글 목록 불러오기 -->
 <select id="getbbslist" parameterType="com.one.multicinemaback.dto.BbsParam" resultType="com.one.multicinemaback.dto.BbsDto">
     SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT 
-	FROM ( SELECT ROW_NUMBER()OVER(ORDER BY REF DESC, STEP ASC) AS RNUM,
+    FROM ( SELECT ROW_NUMBER()OVER(ORDER BY REF DESC, STEP ASC) AS RNUM,
 	           SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT
-	       FROM BBS    
-	       WHERE 1=1
+	   FROM BBS    
+	   WHERE 1=1
+             <!-- 글 목록에서 검색을 했을 때 choice(검색 카테고리), search(검색어)로 검색에 해당된 글만 조회 -->
 	     <if test="choice != null and choice != ''
 		  		and search != null and search != ''">		  	  
 			  <if test="choice == 'title'">
@@ -20,17 +22,18 @@
 			  <if test="choice == 'writer'">
 			  		AND ID=#{search}  
 			  </if>	
-		 </if>
-	       ORDER BY REF DESC, STEP ASC)bbslist
-	WHERE RNUM BETWEEN #{start} AND #{end}       
+	     </if>
+	   ORDER BY REF DESC, STEP ASC)bbslist
+    WHERE RNUM BETWEEN #{start} AND #{end}       
 	
 </select>
 
-<!-- 글의 총수 -->
+<!-- 글의 총수 카운트 -->
 <select id="getbbscount" parameterType="com.one.multicinemaback.dto.BbsParam" resultType="java.lang.Integer">
     SELECT IFNULL(COUNT(*), 0) AS CNT
     FROM BBS
     WHERE 1=1
+	     <!-- 글 목록에서 검색을 했을 때 choice(검색 카테고리), search(검색어)로 검색에 해당된 글의 개수만 카운트 -->
 	     <if test="choice != null and choice != ''
 		  		and search != null and search != ''">		  	  
 			  <if test="choice == 'title'">
@@ -42,33 +45,31 @@
 			  <if test="choice == 'writer'">
 			  		AND ID=#{search}  
 			  </if>	
-		 </if>
+	     </if>
 </select>
 
+<!-- 새 글 작성 -->
 <insert id="writeBbs" parameterType="com.one.multicinemaback.dto.BbsDto">
-    INSERT INTO BBS 
-				(ID, 
-				REF, STEP, DEPTH, 
-				TITLE, CONTENT, WDATE, DEL, READCOUNT)
-				VALUES
-				(#{ id }, 
-				(SELECT * FROM(SELECT IFNULL(MAX(REF), 0)+1 FROM BBS)temp), 0, 0,
-				#{ title }, #{ content }, NOW(), 0, 0)
+    INSERT INTO BBS (ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT)
+    VALUES (#{ id }, (SELECT * FROM(SELECT IFNULL(MAX(REF), 0)+1 FROM BBS)temp), 0, 0, #{ title }, #{ content }, NOW(), 0, 0)
 </insert>
 
+<!-- 글의 조회 수 올리기 -->
 <update id="readcount" parameterType="Integer">
     UPDATE BBS 
     SET READCOUNT=READCOUNT + 1 
     WHERE SEQ=#{ seq }
 </update>
 
+<!-- 글 세부내용 불러오기 -->
 <select id="getBbs" parameterType="Integer" resultType="com.one.multicinemaback.dto.BbsDto">
     SELECT SEQ, ID, REF, STEP, DEPTH, 
     	   TITLE, CONTENT, WDATE, DEL, READCOUNT 
-	FROM BBS 
-	WHERE SEQ=#{ seq }
+    FROM BBS 
+    WHERE SEQ=#{ seq }
 </select>
 
+<!-- 답글 글 순서 최신화 -->	
 <update id="answerup" parameterType="com.one.multicinemaback.dto.BbsDto">
     UPDATE BBS 
     SET STEP=STEP+1 
@@ -76,6 +77,7 @@
     AND STEP > (SELECT * FROM(SELECT STEP FROM BBS WHERE SEQ=#{ seq })temp)
 </update>
 
+<!-- 답글 작성 -->	
 <insert id="answerin" parameterType="com.one.multicinemaback.dto.BbsDto">
     INSERT INTO BBS(ID,  
                     REF, STEP, DEPTH, 
@@ -87,19 +89,21 @@
     #{ title }, #{ content }, NOW(), 0, 0)
 </insert>
 
+<!-- 글 수정하기 -->	
 <update id="updateBbs" parameterType="com.one.multicinemaback.dto.BbsDto">
     UPDATE BBS 
-    SET TITLE=#{ title }, 
-        CONTENT=#{ content }
+    SET TITLE=#{ title }, CONTENT=#{ content }
     WHERE SEQ=#{ seq }
 </update>
 
+<!-- 글 삭제하기 -->		
 <update id="deleteBbs" parameterType="Integer">
     UPDATE BBS 
     SET DEL=1 
     WHERE SEQ=#{seq}
 </update>
-
+	
+<!-- 내가 작성한 글 불러오기 -->	
 <select id="mybbslist" parameterType="String" resultType="com.one.multicinemaback.dto.BbsDto">
 	SELECT *
 	FROM BBS
