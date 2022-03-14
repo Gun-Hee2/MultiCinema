@@ -32,7 +32,7 @@ public class BbsService {
 		return dao.writeBbs(bbs);
 	}
 	
-	// 글 조회수 불러오기
+	// 글 조회수 올리기
 	public void readcount(int seq) {
 		dao.readcount(seq);
 	}
