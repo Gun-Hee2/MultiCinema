@@ -3,15 +3,18 @@
 
 <mapper namespace="com.one.multicinemaback.dao.SnackBarDao">
 
+<!-- 스낵바 메뉴 추가 -->	
 <insert id="addSnackBar" parameterType="com.one.multicinemaback.dto.SnackBarDto">
 	INSERT INTO SNACKBAR(product, content, price, category) VALUES(#{product},#{content},#{price},#{category})
 </insert>
 
+<!-- 스낵바 리스트 -->	
 <select id="snackbarlist" parameterType="java.lang.String" resultType="com.one.multicinemaback.dto.SnackBarDto">
     SELECT * FROM SNACKBAR
     WHERE CATEGORY=#{category}
 </select>
 
+<!-- 스낵바 상품 상세정보 -->	
 <select id="snackbardetail" parameterType="java.lang.String" resultType="com.one.multicinemaback.dto.SnackBarDto">
     SELECT * FROM SNACKBAR
     WHERE PRODUCT=#{product}
