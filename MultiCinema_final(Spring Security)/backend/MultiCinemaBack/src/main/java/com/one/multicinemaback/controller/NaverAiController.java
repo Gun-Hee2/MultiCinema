@@ -14,7 +14,8 @@ public class NaverAiController {
 	
 	@Autowired
 	ServletContext servletContext;
-		
+	
+	// 챗봇(Naver CLOVA Chatbot)
 	@RequestMapping(value = "/Chatbot", method = RequestMethod.GET)
 	public String chatbot(String msg) {
 		System.out.println("PdsController chatbot");
