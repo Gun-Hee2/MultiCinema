@@ -11,7 +11,7 @@ import com.one.multicinemaback.dto.SbPayDto;
 @Repository
 public interface SbPayDao {
 	
-	// 내 결제 내역 불러오기
+	// 내 결제 내역 불러오기(마이 페이지)
 	public List<SbPayDto> getSbPayList(String id);
 	
 	// 스낵바 카카오결제 내역 데이터 저장
