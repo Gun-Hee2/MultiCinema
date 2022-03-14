@@ -31,10 +31,11 @@ public class KakaoPayController {
 	
 	@Autowired
 	TicketService tiservice;
-
+        
+	// 스낵바 카카오페이 
 	@RequestMapping(value = "/sbkakaopay", method =RequestMethod.GET)
 	public String kakaopay(String id, String product, String count, String payprice) throws UnsupportedEncodingException {
-		System.out.println("KakaoPayController kakaopay()");
+		System.out.println("KakaoPayController sbkakaopay()");
 		System.out.println(id);
 		String pname = URLEncoder.encode(product, "UTF-8");
 		System.out.println(pname);
@@ -73,14 +74,7 @@ public class KakaoPayController {
 		return "{\"result\":\"NO\"}";
 	}
 	
-	@RequestMapping(value = "/kakaopayready", method = RequestMethod.GET)
-	public String kakaopayready(String tid, Model model, String url) {
-		
-		System.out.println(tid);
-		
-		return "redirect:" + url;
-	}
-	
+	// 스낵바 카카오결제 내역 데이터 저장
 	@RequestMapping(value = "/insertsbpay", method = RequestMethod.POST)
 	public String insertpay(SbPayDto dto) {
 		System.out.println("KakaoPayController insertpay()");
@@ -91,6 +85,7 @@ public class KakaoPayController {
 		return "success";
 	}
 	
+	// 스낵바 카카오결제 내역 데이터 불러오기
 	@RequestMapping(value = "/getsbpay", method = RequestMethod.POST)
 	public SbPayDto getspay(String tid) {
 		System.out.println("KakaoPayController getspay()");
@@ -103,21 +98,7 @@ public class KakaoPayController {
 		return dto;
 	}
 	
-	@RequestMapping(value = "/delsbpay", method = RequestMethod.POST)
-	public String delsbpay(String tid) {
-		
-		System.out.println(tid);
-		
-		boolean b = sbservice.delsbpay(tid);
-		
-		if(b == true) {
-			return "success";
-		}else {
-			return "fail";
-		}
-		
-	}
-	
+	// 영화 티켓 카카오페이 결제
 	@RequestMapping(value = "/tikakaopay", method =RequestMethod.GET)
 	public String tikakaopay( String msnum, String id, String title, String time, String theater, String snum, String price) throws UnsupportedEncodingException {
 		System.out.println("KakaoPayController tikakaopay()");
@@ -160,7 +141,7 @@ public class KakaoPayController {
 		return "{\"result\":\"NO\"}";
 	}
 	
-	
+	// 영화 티켓 카카오결제 내역 데이터 저장
 	@RequestMapping(value = "/inserttipay", method = RequestMethod.POST)
 	public String inserttipay(TicketDto dto) {
 		System.out.println("KakaoPayController inserttipay()");
@@ -171,6 +152,7 @@ public class KakaoPayController {
 		return "success";
 	}
 	
+	// 영화 티켓 카카오결제 내역 데이터 
 	@RequestMapping(value = "/gettipay", method = RequestMethod.GET)
 	public TicketDto gettipay(TicketDto tdto) {
 		System.out.println("KakaoPayController gettipay()");
@@ -181,21 +163,5 @@ public class KakaoPayController {
 		System.out.println(dto);
 		
 		return dto;
-	}
-	
-	@RequestMapping(value = "/deltipay", method = RequestMethod.POST)
-	public String deltipay(TicketDto tdto) {
-		System.out.println("KakaoPayController deltipay()");
-		System.out.println(tdto);
-		
-		boolean b = tiservice.deltipay(tdto);
-		
-		if(b == true){
-			return "success";
-		}else {
-			return "fail";
-		}
-		
-		
 	}
 }
