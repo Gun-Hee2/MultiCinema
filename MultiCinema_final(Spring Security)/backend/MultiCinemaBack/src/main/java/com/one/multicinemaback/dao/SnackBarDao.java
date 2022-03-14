@@ -10,7 +10,12 @@ import com.one.multicinemaback.dto.SnackBarDto;
 @Mapper
 @Repository
 public interface SnackBarDao {
+	//스낵바 메뉴 추가
 	void addSnackBar(SnackBarDto product);
+	
+	//스낵바 리스트
 	List<SnackBarDto> snackbarlist(String category);
+	
+	//스낵바 상품 상세정보
 	SnackBarDto snackbardetail(String product);
 }
