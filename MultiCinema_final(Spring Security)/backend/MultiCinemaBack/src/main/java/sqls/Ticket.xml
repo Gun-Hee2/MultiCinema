@@ -34,17 +34,15 @@
 </select>
 
 <!-- 카카오페이 결제 -->
+	
+<!-- 영화 티켓 카카오결제 내역 데이터 저장 -->	
 <insert id="inserttipay" parameterType="com.one.multicinemaback.dto.TicketDto">
     INSERT INTO Ticket(tid, msnum, id, title, bdate, sdate, edate, theater, snum, price )
      VALUES(#{tid},#{msnum},#{id},#{title}, NOW(),#{sdate},#{edate},#{theater},#{snum},#{price})
 </insert>
-
+<!-- 영화 티켓 카카오결제 내역 데이터 불러오기 -->
 <select id="gettipay" parameterType="com.one.multicinemaback.dto.TicketDto" resultType="com.one.multicinemaback.dto.TicketDto">
     SELECT * FROM Ticket WHERE TID=#{tid}
 </select>
-
-<delete id="deltipay" parameterType="com.one.multicinemaback.dto.TicketDto">
-    DELETE FROM Ticket WHERE TID=#{tid}
-</delete>
 
 </mapper>
