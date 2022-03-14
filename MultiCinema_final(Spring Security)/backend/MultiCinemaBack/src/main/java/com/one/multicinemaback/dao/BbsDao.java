@@ -25,7 +25,7 @@ public interface BbsDao extends Serializable {
 	// 글 세부내용 불러오기
 	BbsDto getBbs(int seq);
 	
-	// 글 조회수 불러오기
+	// 글 조회수 
 	void readcount(int seq);
 	
 	// 답글 글 순서 최신화
