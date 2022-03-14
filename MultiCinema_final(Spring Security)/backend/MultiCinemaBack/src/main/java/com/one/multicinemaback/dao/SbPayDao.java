@@ -11,9 +11,13 @@ import com.one.multicinemaback.dto.SbPayDto;
 @Repository
 public interface SbPayDao {
 	
+	// 스낵바 카카오페이 결제
 	public List<SbPayDto> getSbPayList(String id);
+	
+	// 스낵바 카카오결제 내역 데이터 저장
 	void insertsbpay(SbPayDto dto);
+	
+	// 스낵바 카카오결제 내역 데이터 불러오기
 	SbPayDto getsbpay(String tid);
-	boolean delsbpay(String tid);
 
 }
