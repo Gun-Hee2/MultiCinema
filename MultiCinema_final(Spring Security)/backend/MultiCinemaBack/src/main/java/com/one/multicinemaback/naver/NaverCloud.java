@@ -26,6 +26,7 @@ import android.util.Base64;
 
 public class NaverCloud {
 	
+	// 챗봇 api
 	public static String chatBot(String voiceMessage) {
 		
 		String chatbotMessage = "";
