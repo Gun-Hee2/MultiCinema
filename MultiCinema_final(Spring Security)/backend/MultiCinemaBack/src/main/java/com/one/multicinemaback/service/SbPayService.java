@@ -15,18 +15,18 @@ public class SbPayService {
 	
 	@Autowired
 	SbPayDao dao;
+	
+	// 스낵바 카카오결제 내역 데이터 저장
 	public void insertsbpay(SbPayDto dto) {
 		dao.insertsbpay(dto);
 	}
 	
+	// 스낵바 카카오결제 내역 데이터 불러오기
 	public SbPayDto getsbpay(String tid) {
 		return dao.getsbpay(tid);
 	}
 	
-	public boolean delsbpay(String tid) {
-		return dao.delsbpay(tid);
-	}
-	
+	// 내 결제 내역 불러오기(마이 페이지)
 	public List<SbPayDto> getSbPayList(String id) {
 		return dao.getSbPayList(id);
 	}
