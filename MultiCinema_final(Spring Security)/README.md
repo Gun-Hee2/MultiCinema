@@ -27,10 +27,10 @@
 <img src="https://user-images.githubusercontent.com/87796075/157164998-9343577a-f98a-4251-8139-25c33ef7d890.png">
 
 * 코드  
-<a href="https://bit.ly/3pMDZaK" target="_blank">Controller</a>    
-<a href="https://bit.ly/3sPMaVu" target="_blank">Dao</a>    
-<a href="https://bit.ly/3CryxiK" target="_blank">Service</a>    
-<a href="https://bit.ly/3Mzi7cI" target="_blank">Xml</a>  
+<a href="https://bit.ly/3IbKQB0" target="_blank">Controller</a>    
+<a href="https://bit.ly/3w6jcTq" target="_blank">Dao</a>    
+<a href="https://bit.ly/35QQ3RH" target="_blank">Service</a>    
+<a href="https://bit.ly/3i6BbAO" target="_blank">Xml</a>  
 
 ### 4.2. 스낵 / 음료
 * 스낵바 상품 목록
@@ -43,10 +43,10 @@
 <img src="https://user-images.githubusercontent.com/87796075/157166000-9e2d28fe-e464-419c-8417-c4b5d8bfdfe0.png">
 
 * 코드  
-<a href="https://bit.ly/3HJBlsn" target="_blank">Controller</a>    
-<a href="https://bit.ly/3KlZK92" target="_blank">Dao</a>    
-<a href="https://bit.ly/3tv9kjm" target="_blank">Service</a>    
-<a href="https://bit.ly/3pEM8Oc" target="_blank">Xml</a>    
+<a href="https://bit.ly/35W9R61" target="_blank">Controller</a>    
+<a href="https://bit.ly/3MR7r9f" target="_blank">Dao</a>    
+<a href="https://bit.ly/3JkD49m" target="_blank">Service</a>    
+<a href="https://bit.ly/3q5oTwW" target="_blank">Xml</a>    
 
 ### 4.3. 카카오페이 결제 API
 * 카카오페이 결제 페이지
@@ -59,26 +59,29 @@
 <img src="https://user-images.githubusercontent.com/87796075/157168625-9d17af95-d520-449e-942b-f4a752f4c680.png">
 
 * 코드  
-<a href="https://bit.ly/3vLjVJF" target="_blank">Controller</a>    
-<a href="https://bit.ly/3610YI8" target="_blank">Dao</a>    
-<a href="https://bit.ly/3KqSPLT" target="_blank">Service</a>    
-<a href="https://bit.ly/35ChONq" target="_blank">Xml</a>    
+<a href="https://bit.ly/3KEBsY2" target="_blank">Controller</a>    
+<a href="https://bit.ly/3q22gtq" target="_blank">Dao(snackbar)</a>    
+<a href="https://bit.ly/3CG6snS" target="_blank">Dao(ticket)</a>  
+<a href="https://bit.ly/3JfD1LE" target="_blank">Service(snackbar)</a>    
+<a href="https://bit.ly/3i6nFgH" target="_blank">Service(ticket)</a>  
+<a href="https://bit.ly/3w5eVjd" target="_blank">Xml(snackbar)</a>    
+<a href="https://bit.ly/3q1dzSL" target="_blank">Xml(ticket)</a> 
 
 ### 4.4. 챗봇
 * 챗봇 채팅창
 <img src="https://user-images.githubusercontent.com/87796075/157166650-9fb7fb89-d34f-4f64-a3b4-cfc82ace19ae.png">  
 
 * 코드  
-<a href="https://bit.ly/3KkHrkC" target="_blank">Controller</a>    
-<a href="https://bit.ly/3pMOfQ5" target="_blank">Chatbot Method</a>    
+<a href="https://bit.ly/3CLedIZ" target="_blank">Controller</a>    
+<a href="https://bit.ly/3CLefAB" target="_blank">Chatbot Method</a>    
 
 ### 4.5. Spring Security
 * 의존성 주입(Maven)  
-<a href="https://bit.ly/3IRzqTW" target="_blank">코드</a>  
+<a href="https://bit.ly/3w6087I" target="_blank">코드</a>  
 
 * Config 설정  
-<a href="https://bit.ly/3IUD2EC" target="_blank">코드</a> 
+<a href="https://bit.ly/3w7LHA0" target="_blank">코드</a> 
 
-* 회원가입 & 로그인 구현  
-<a href="https://bit.ly/3IUlzfA" target="_blank">코드</a> 
+* Spring Security를 적용하는 회원가입 & 로그인 구현  
+<a href="https://bit.ly/3i4XGX7" target="_blank">코드</a> 
 
