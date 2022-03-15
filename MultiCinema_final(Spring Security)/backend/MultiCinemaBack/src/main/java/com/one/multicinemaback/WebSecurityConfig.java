@@ -10,10 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+// Config객체는 WebSecurityConfigurerAdapter를 상속받아서 configure()를 구현한다.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
+		// 패스워드 암호화 방식으로 BCryptPasswordEncoder를 적용. BcryptPasswordEncoder는 BCrypt라는 해시 함수를 이용하여 패스워드를 암호화하는 구현체이다.
 	}
 	
 	@Override
