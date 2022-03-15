@@ -46,7 +46,7 @@ public class UserController {
 		{
 			return null;
 		}
-		// 로그인 페이지에서 ajax를 통해 입력받은 비밀번호와 회원정보에 해당되는 비밀번호와 일치하는지 
+		// 로그인 페이지에서 ajax를 통해 입력받은 비밀번호와 회원정보에 해당되는 비밀번호와 일치하는지를 passwordEncoder.matches를 통해 판단
 		else if(passwordEncoder.matches(pw, user.getPw()))
 		{
 			user.setPw("");
