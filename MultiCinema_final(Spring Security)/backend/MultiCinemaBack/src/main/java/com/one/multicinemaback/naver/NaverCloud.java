@@ -32,6 +32,7 @@ public class NaverCloud {
 		String chatbotMessage = "";
 
         try {
+	    // 네이버 클라우드 플랫폼에서 주어지는 api 연결 url	
             String apiURL = "https://10303d6d66aa488aab8b40c00261a267.apigw.ntruss.com/custom/v1/5734/32508f550bc8195522d7e43947fbd94b16937d3124948efb1529662704281ad5";
 
             URL url = new URL(apiURL);
@@ -41,6 +42,7 @@ public class NaverCloud {
             String message = getReqMessage(voiceMessage);
             System.out.println("##" + message);
             
+	    // 네이버 클라우드 플랫폼에서 주어지는 비밀키	
             String secretKey = "cklGemJSV0J6d3FBc2tnZlNRdkdVRklab2hCUXBycHI=";
 
             String encodeBase64String = makeSignature(message, secretKey);
@@ -123,6 +125,8 @@ public class NaverCloud {
             System.out.println("##"+timestamp);
 
             obj.put("version", "v2");
+		
+	    // 유저 고유의 아이디
             obj.put("userId", "U47b00b58c90f8e47428af8b7bddc1231heo2");
             //=> userId is a unique code for each chat user, not a fixed value, recommend use UUID. use different id for each user could help you to split chat history for users.
 
