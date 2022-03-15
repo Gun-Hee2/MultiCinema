@@ -95,6 +95,7 @@
 		      <version>2.7.1</version>
 	      </dependency>		
 	      
+	      <!-- Password Encoder를 사용하기 위해 의존성 주입 -->	
 	      <dependency>
               <groupId>org.springframework.boot</groupId>
               <artifactId>spring-boot-starter-security</artifactId>
