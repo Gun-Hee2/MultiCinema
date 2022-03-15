@@ -83,5 +83,5 @@
 <a href="https://bit.ly/3w7LHA0" target="_blank">코드</a> 
 
 * Spring Security를 적용하는 회원가입 & 로그인 구현  
-<a href="https://bit.ly/3i4XGX7" target="_blank">코드</a> 
+<a href="https://bit.ly/3KOzuEJ" target="_blank">코드</a> 
 
