@@ -67,7 +67,7 @@
 <a href="https://bit.ly/3w5eVjd" target="_blank">Xml(snackbar)</a>    
 <a href="https://bit.ly/3q1dzSL" target="_blank">Xml(ticket)</a> 
 
-### 4.4. 챗봇
+### 4.4. 챗봇(Naver Cloud Clova Chatbot API)
 * 챗봇 채팅창
 <img src="https://user-images.githubusercontent.com/87796075/157166650-9fb7fb89-d34f-4f64-a3b4-cfc82ace19ae.png">  
 
