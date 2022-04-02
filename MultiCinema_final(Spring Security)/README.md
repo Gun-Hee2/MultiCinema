@@ -85,5 +85,38 @@
 * Spring Security를 적용하는 회원가입 & 로그인 구현  
 <a href="https://bit.ly/3KOzuEJ" target="_blank">코드</a>   
 
-## 5. 트러블 슈팅
+## 5. 트러블 슈팅   
 
+<details>
+<summary>5.1 URL Parameter Parsing(Click) </summary>
+<div markdown="1">  
+    
+  
+페이지 이동간에 파리미터값을 가져와야 하는 상황이 있었고, 그 부분에서 어떻게 가져올지 고민이 많았고, 방법을 찾아보던중에 정규식을 사용한 방법을 알게 되었다.  
+  
+  
+```
+function getURLParams(url) {
+    var result = {};
+    url.replace(/[?&]{1}([^=&#]+)=([^&#]*)/g, function(s, k, v) { result[k] = decodeURIComponent(v); });
+    return result;
+}
+```   
+  
+간단하게 설명을 하자면, 인자값으로 받은 url 변수의 문자열에서 '?' 혹은 '&' 한개로 시작해서 '=','&','#' 가 아닌 문자가 1개이상 나온 뒤,  
+'=' 문자가 나오고 '&','#' 이 아닌 문자가 0개 이상 나오는 문자열을 모두 찾은 뒤,  
+첫번째 그룹으로 지어준 부분인 ([^=&#]+)에 해당하는 문자열을 key로 지정하고,  
+두번째 그룹 지어준 부분인 ([^&#]*)에 해당하는 문자열을 URI decoding 해준 값을 value로 가지는 배열을 만들어서 반환 시켜준다.  
+  
+만약 URL이 "https://www.xxx.com/112?param1=value1&param2=value2&param3=value3#id1" 이라면,  
+  
+|s|k|v|
+|--|--|--|
+|?param1=value1|param1|value1|
+|&param2=value2|param2|value2|
+|&param3=value3|param3|value3|  
+
+위 표와 같이 나온다.  
+
+</div>
+</details>
