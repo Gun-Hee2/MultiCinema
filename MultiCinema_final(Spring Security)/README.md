@@ -92,7 +92,7 @@
 <div markdown="1">  
     
   
-페이지 이동간에 파리미터값을 가져와야 하는 상황이 있었고, 그 부분에서 어떻게 가져올지 고민이 많았고, 방법을 찾아보던중에 정규식을 사용한 방법을 알게 되었다.  
+페이지 이동간에 파리미터값을 가져와야 하는 상황이 있었고, 그 부분에서 어떻게 가져올지 고민이 많았고, 방법을 찾아보던중에 정규식을 사용한 방법을 알게 되었습니다.  
   
   
 ```
@@ -106,7 +106,7 @@ function getURLParams(url) {
 간단하게 설명을 하자면, 인자값으로 받은 url 변수의 문자열에서 '?' 혹은 '&' 한개로 시작해서 '=','&','#' 가 아닌 문자가 1개이상 나온 뒤,  
 '=' 문자가 나오고 '&','#' 이 아닌 문자가 0개 이상 나오는 문자열을 모두 찾은 뒤,  
 첫번째 그룹으로 지어준 부분인 ([^=&#]+)에 해당하는 문자열을 key로 지정하고,  
-두번째 그룹 지어준 부분인 ([^&#]*)에 해당하는 문자열을 URI decoding 해준 값을 value로 가지는 배열을 만들어서 반환 시켜준다.  
+두번째 그룹 지어준 부분인 ([^&#]*)에 해당하는 문자열을 URI decoding 해준 값을 value로 가지는 배열을 만들어서 반환 시켜줍니다.  
   
 만약 URL이 "https://www.xxx.com/112?param1=value1&param2=value2&param3=value3#id1" 이라면,  
   
@@ -116,7 +116,32 @@ function getURLParams(url) {
 |&param2=value2|param2|value2|
 |&param3=value3|param3|value3|  
 
-위 표와 같이 나온다.  
+위 표와 같이 나오게 됩니다.  
 
 </div>
-</details>
+</details>  
+
+<details>
+<summary>5.2 HttpURLConnection Parameter Encoding(Click) </summary>
+<div markdown="1">  
+    
+카카오페이에 request를 보내는 과정에 있어서 원하는 한글 문자열이 알수없는 문자로 표현됨을 확인했습니다.  
+문제 해결을 위해 방법을 찾았고, 생각보다 간단한 문제였습니다. 
+      
+    
+우선, 문제가 생긴 부분입니다.  
+    
+![image](https://user-images.githubusercontent.com/87796075/162211832-f45ce763-eedd-40a6-b054-7abdd46aeb34.png)  
+위와 같이 상품명 부분이 인코딩이 되지 않은 문자가 보여지는 문제가 있었습니다.  
+    
+이러한 문제를 해결하기 위한 방법으로는 HttpURLConnection을 사용할 때, 서버의 인코딩 방식에 맞춰서 클라이언트측에서도 동일한 인코딩 방식으로 parameter를 보내줘야 했습니다.  
+    
+즉, 카카오페이의 서버에서 utf-8을 사용하고 있었기 때문에 카카오페이의 서버로 한글인 parameter를 보낼 때 URLEncoder를 사용해서 utf-8로 인코딩하여 보내줘야 함을 알게 되었습니다.    
+    
+<a href="https://bit.ly/3uiriXP" target="_blank">문제 해결 부분(코드)</a>  
+    
+![kakaopay(fix)](https://user-images.githubusercontent.com/87796075/162213833-ea026911-1f6d-40e8-b7f0-92172b74eeeb.png)  
+위와 같이 해결된 모습을 확인할 수 있습니다.
+    
+</div>
+</details>     
