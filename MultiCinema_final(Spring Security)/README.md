@@ -2,24 +2,30 @@
 
 ## 1. 제작 기간 & 참여 인원
 * 2021.11.03 ~ 2021.12.02
-* 총 5명 / 김리영(팀장), 김원규, 도상우, 박상민, 허건희
+* 총 5명 / 김리영(팀장), 김원규, 도상우, 박상민, 허건희  
 
-## 2. 사용 기술
+## 2. 목차
+1. 사용 기술
+2. ERD 설계
+3. 담당파트
+4. 트러블 슈팅
+
+## 3. 사용 기술
 * Java 8
 * Spring boot 2.5.6
 * Maven
-* My SQL 8.0
+* My SQL
 * Spring Security 2.4.5
 * Ajax
 * JSON
 * Restful API
 * My Batis
 
-## 3. ERD 설계
+## 4. ERD 설계
 <img src="https://user-images.githubusercontent.com/87796075/156913078-953a4547-d2c1-4086-9c51-4d601a3907e8.png">
 
-## 4. 담당파트
-### 4.1. 고객센터
+## 5. 담당파트
+### 5.1. 고객센터
 * 고객센터 글 목록
 <img src="https://user-images.githubusercontent.com/87796075/157165170-8567638e-c198-4fdb-b468-6e7fe27db108.png">  
 
@@ -32,7 +38,7 @@
 <a href="https://bit.ly/35QQ3RH" target="_blank">Service</a>    
 <a href="https://bit.ly/3i6BbAO" target="_blank">Xml</a>  
 
-### 4.2. 스낵 / 음료
+### 5.2. 스낵 / 음료
 * 스낵바 상품 목록
 <img src="https://user-images.githubusercontent.com/87796075/157165871-0fce3691-a37d-498b-a77f-4ff1afa30962.png">  
 
@@ -48,7 +54,7 @@
 <a href="https://bit.ly/3JkD49m" target="_blank">Service</a>    
 <a href="https://bit.ly/3q5oTwW" target="_blank">Xml</a>    
 
-### 4.3. 카카오페이 결제 API
+### 5.3. 카카오페이 결제 API
 * 카카오페이 결제 페이지
 <img src="https://user-images.githubusercontent.com/87796075/157168207-666e0c69-e28c-4e97-99e0-796d43f8d64d.png">  
 
@@ -67,7 +73,7 @@
 <a href="https://bit.ly/3w5eVjd" target="_blank">Xml(snackbar)</a>    
 <a href="https://bit.ly/3q1dzSL" target="_blank">Xml(ticket)</a> 
 
-### 4.4. 챗봇(Naver Cloud Clova Chatbot API)
+### 5.4. 챗봇(Naver Cloud Clova Chatbot API)
 * 챗봇 채팅창
 <img src="https://user-images.githubusercontent.com/87796075/157166650-9fb7fb89-d34f-4f64-a3b4-cfc82ace19ae.png">  
 
@@ -75,7 +81,7 @@
 <a href="https://bit.ly/3CLedIZ" target="_blank">Controller</a>    
 <a href="https://bit.ly/3CLefAB" target="_blank">Chatbot Method</a>    
 
-### 4.5. Spring Security
+### 5.5. Spring Security
 * 의존성 주입(Maven)  
 <a href="https://bit.ly/3w6087I" target="_blank">코드</a>  
 
@@ -85,10 +91,10 @@
 * Spring Security를 적용하는 회원가입 & 로그인 구현  
 <a href="https://bit.ly/3KOzuEJ" target="_blank">코드</a>   
 
-## 5. 트러블 슈팅   
+## 6. 트러블 슈팅   
 
 <details>
-<summary>5.1 URL Parameter Parsing(Click) </summary>
+<summary>6.1 URL Parameter Parsing(Click) </summary>
 <div markdown="1">  
     
   
@@ -122,7 +128,7 @@ function getURLParams(url) {
 </details>  
 
 <details>
-<summary>5.2 HttpURLConnection Parameter Encoding(Click) </summary>
+<summary>6.2 HttpURLConnection Parameter Encoding(Click) </summary>
 <div markdown="1">  
     
 카카오페이에 request를 보내는 과정에 있어서 원하는 한글 문자열이 알수없는 문자로 표현됨을 확인했습니다.  
