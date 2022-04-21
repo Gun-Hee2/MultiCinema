@@ -9,6 +9,7 @@
 2. ERD 설계
 3. 담당파트
 4. 트러블 슈팅
+5. 회고
 
 ## 3. 사용 기술
 * Java 8
@@ -150,4 +151,6 @@ function getURLParams(url) {
 위와 같이 해결된 모습을 확인할 수 있습니다.
     
 </div>
-</details>     
+</details>  
+
+## 7. 회고
