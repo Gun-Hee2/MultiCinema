@@ -141,9 +141,9 @@ function getURLParams(url) {
 ![image](https://user-images.githubusercontent.com/87796075/162211832-f45ce763-eedd-40a6-b054-7abdd46aeb34.png)  
 위와 같이 상품명 부분이 인코딩이 되지 않은 문자가 보여지는 문제가 있었습니다.  
     
-이러한 문제를 해결하기 위한 방법으로는 HttpURLConnection을 사용할 때, 서버의 인코딩 방식에 맞춰서 클라이언트측에서도 동일한 인코딩 방식으로 parameter를 보내줘야 했습니다.  
+이러한 문제를 해결하기 위한 방법으로는 HttpURLConnection을 사용할 때, 서버의 인코딩 방식에 맞춰서 클라이언트측에서도 동일한 인코딩 방식으로 파라미터를 보내줘야 했습니다.  
     
-즉, 카카오페이의 서버에서 utf-8을 사용하고 있었기 때문에 카카오페이의 서버로 한글인 parameter를 보낼 때 URLEncoder를 사용해서 utf-8로 인코딩하여 보내줘야 함을 알게 되었습니다.    
+즉, 카카오페이의 서버에서 utf-8을 사용하고 있었기 때문에 카카오페이의 서버로 한글인 파라미터를 보낼 때 URLEncoder를 사용해서 utf-8로 인코딩하여 보내줘야 함을 알게 되었습니다.    
     
 <a href="https://bit.ly/3uiriXP" target="_blank">문제 해결 부분(코드)</a>  
     
