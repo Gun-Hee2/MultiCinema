@@ -33,11 +33,18 @@
 * 고객센터 CRUD  
 <img src="https://user-images.githubusercontent.com/87796075/157164998-9343577a-f98a-4251-8139-25c33ef7d890.png">
 
-* 코드  
+<details>
+<summary> 코드(Click) </summary>
+<div markdown="1">  
+    
 <a href="https://bit.ly/3IbKQB0" target="_blank">Controller</a>    
 <a href="https://bit.ly/3w6jcTq" target="_blank">Dao</a>    
 <a href="https://bit.ly/35QQ3RH" target="_blank">Service</a>    
-<a href="https://bit.ly/3i6BbAO" target="_blank">Xml</a>  
+<a href="https://bit.ly/3i6BbAO" target="_blank">Xml</a>    
+    
+</div>
+</details>
+ 
 
 ### 5.2. 스낵 / 음료
 * 스낵바 상품 목록
@@ -49,11 +56,18 @@
 * 스낵바 상품 결제(카카오페이 API)   
 <img src="https://user-images.githubusercontent.com/87796075/157166000-9e2d28fe-e464-419c-8417-c4b5d8bfdfe0.png">
 
-* 코드  
+<details>
+<summary> 코드(Click) </summary>
+<div markdown="1">  
+    
 <a href="https://bit.ly/35W9R61" target="_blank">Controller</a>    
 <a href="https://bit.ly/3MR7r9f" target="_blank">Dao</a>    
 <a href="https://bit.ly/3JkD49m" target="_blank">Service</a>    
 <a href="https://bit.ly/3q5oTwW" target="_blank">Xml</a>    
+    
+</div>
+</details>
+
 
 ### 5.3. 카카오페이 결제 API
 * 카카오페이 결제 페이지
@@ -65,7 +79,10 @@
 * 결제 완료 페이지  
 <img src="https://user-images.githubusercontent.com/87796075/157168625-9d17af95-d520-449e-942b-f4a752f4c680.png">
 
-* 코드  
+<details>
+<summary> 코드(Click) </summary>
+<div markdown="1">  
+    
 <a href="https://bit.ly/3KEBsY2" target="_blank">Controller</a>    
 <a href="https://bit.ly/3q22gtq" target="_blank">Dao(snackbar)</a>    
 <a href="https://bit.ly/3CG6snS" target="_blank">Dao(ticket)</a>  
@@ -73,14 +90,24 @@
 <a href="https://bit.ly/3i6nFgH" target="_blank">Service(ticket)</a>  
 <a href="https://bit.ly/3w5eVjd" target="_blank">Xml(snackbar)</a>    
 <a href="https://bit.ly/3q1dzSL" target="_blank">Xml(ticket)</a> 
+    
+</div>
+</details>
 
 ### 5.4. 챗봇(Naver Cloud Clova Chatbot API)
 * 챗봇 채팅창
 <img src="https://user-images.githubusercontent.com/87796075/157166650-9fb7fb89-d34f-4f64-a3b4-cfc82ace19ae.png">  
 
-* 코드  
+<details>
+<summary> 코드(Click) </summary>
+<div markdown="1">  
+    
 <a href="https://bit.ly/3CLedIZ" target="_blank">Controller</a>    
-<a href="https://bit.ly/3CLefAB" target="_blank">Chatbot Method</a>    
+<a href="https://bit.ly/3CLefAB" target="_blank">Chatbot Method</a> 
+    
+</div>
+</details>
+  
 
 ### 5.5. Spring Security
 * 의존성 주입(Maven)  
