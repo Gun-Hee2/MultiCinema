@@ -12,9 +12,9 @@
 5. 회고
 
 ## 3. 사용 기술
-* Java 8
+* Java 1.8
 * Spring boot 2.5.6
-* Maven
+* Maven 3.8.1
 * My SQL
 * Spring Security 2.4.5
 * Ajax
